@@ -1,0 +1,23 @@
+{
+  "name": "scrawler",
+  "version": "0.0.0",
+  "description": "A javascript parallax library.",
+  "main": "Scrawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cy-park/Scrawler.git"
+  },
+  "keywords": [
+    "parallax",
+    "scroll"
+  ],
+  "author": "Chan Young Park <designbycy@gmail.com> (http://www.chanyoungpark.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cy-park/Scrawler/issues"
+  },
+  "homepage": "https://github.com/cy-park/Scrawler#readme"
+}

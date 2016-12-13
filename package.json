@@ -1,5 +1,5 @@
 {
-  "name": "Scrawler",
+  "name": "scrawler",
   "version": "0.0.1",
   "description": "A javascript vertical parallax library.",
   "main": "src/Scrawler.js",

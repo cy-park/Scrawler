@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../dist/Scrawler.min.js"></script>
+</head>
+<body style="height:20000px;padding-top:1000px;">
+<!-- <body> -->
+	<div id="u1" class="unit" style="width:100px;height:1000px;background:green;margin-bottom:50px;"></div>
+	<div id="u2" class="unit" style="width:100px;height:1000px;background:green;margin-bottom:50px;"></div>
+	<div id="u3" class="unit" style="width:100px;height:1000px;background:green;margin-bottom:50px;"></div>
+	<div id="u4" class="unit" style="width:100px;height:1000px;background:green;margin-bottom:50px;"></div>
+	<script>
+		var scrawler = new Scrawler({
+
+			fps: 60,
+			baseline: 'center',
+			sortUnits: true,
+			idling: 0
+		});
+
+		scrawler.add({
+		
+			el: '.unit',
+			baseline: 'top',
+			range: ['0%','50%'],
+			order: 3
+
+		}, function(arg1, arg2){ 
+
+			this.map({from:[233,500],to:[123,4534]}, function(val, a0){
+				console.log(this, val, a0);
+			}, ['arg']);
+
+			// console.log('index', this.progress, this.progress.dc)
+
+			this.el.style.opacity = .5 + this.progress.dc/2;
+			this.el.style.marginLeft = this.progress.px+'px';
+
+		}, ['arg1','arg2']).sort().run();
+	</script>
+</body>
+</html>

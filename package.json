@@ -1,9 +1,13 @@
 {
-  "name": "scrawler",
-  "version": "0.0.0",
-  "description": "A javascript parallax library.",
-  "main": "Scrawler.js",
+  "name": "Scrawler",
+  "version": "0.0.1",
+  "description": "A javascript vertical parallax library.",
+  "main": "src/Scrawler.js",
   "scripts": {
+    "server": "http-server .",
+    "watch": "mkdir -p dist && watchify -v -g uglifyify src/Scrawler.js -o dist/Scrawler.min.js",
+    "build": "mkdir -p dist && uglifyjs src/Scrawler.js -o dist/Scrawler.min.js --mangle",
+    "inst": "npm install uglifyify watchify uglify-js http-server --save-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/cy-park/Scrawler/issues"
   },
-  "homepage": "https://github.com/cy-park/Scrawler#readme"
+  "homepage": "https://github.com/cy-park/Scrawler#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "uglify-js": "^2.7.5",
+    "uglifyify": "^3.0.4",
+    "watchify": "^3.7.0"
+  }
 }

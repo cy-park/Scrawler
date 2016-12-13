@@ -1,1 +1,3 @@
-Scrawler
+# Scrawler
+
+### A javascript vertical parallax library.

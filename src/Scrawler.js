@@ -6,6 +6,8 @@
 
 var Scrawler = function(args) {
 
+	args = args || {};
+
 	/** Frame per second. Input 0 for auto fps. */
 	this.fps = args.fps || 0;
 
@@ -39,7 +41,7 @@ Scrawler.Logic = function(args, callback, callbackArgs){
 	this.callback = callback;
 	this.callbackArgs = callbackArgs || [];
 	this.range = args.range || null; // Array(2) with From and To values. 
-	this.baseline = args.baseline||'center';
+	this.baseline = args.baseline||0;
 	this.nodelist = document.querySelectorAll(args.el);
 	this.units = [];
 	for (var i = 0; i < this.nodelist.length; i++) {
@@ -114,8 +116,6 @@ Scrawler.Unit.prototype.map = function(args, callback, callbackArgs){
 	var prg = this.progress[range_unit];
 	if (prg < f0) prg = f0;
 	else if (prg > f1) prg = f1;
-
-	console.log(prg)
 
 	val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 	callbackArgs.unshift(val)
@@ -193,8 +193,6 @@ Scrawler.prototype._engine = function(){
 		(this.idling === 0 && this.direction !== 'stay') ||
 		this._idle_rounds < this.idling) {
 
-		// console.log('idle',this.direction, this._idle_rounds, this.idling, this._prev_px_position , window.pageYOffset);
-
 		for (var i = 0; i < this.logics.length; i++) {
 			var _l  = this.logics[i];
 			for (var j = 0; j < _l.units.length; j++) {
@@ -205,16 +203,10 @@ Scrawler.prototype._engine = function(){
 				_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 				_u.progress.pc = _u.progress.dc * 100;
 
-				// console.log(this.baseline.px, _bcr.top, _u.baseline.px)
-
 				if (_l.range) {
-
-					// console.log(1.1);
 
 					if (_l.range[0] <= _u.progress[_l._range_unit] && _u.progress[_l._range_unit] <= _l.range[1]) {
 						// In range
-
-						// console.log(2.1);
 
 						_u._top_edge_rendered = false;
 						_u._bot_edge_rendered = false;
@@ -223,12 +215,8 @@ Scrawler.prototype._engine = function(){
 					} else {
 						// Out of range
 
-						// console.log(2.2);
-
 						if (_u.progress[_l._range_unit] < _l.range[0]) {
 							// Unit locates lower than Scrawler Baseline.
-
-							// console.log(3.1);
 
 							_u._bot_edge_rendered = false;
 
@@ -244,18 +232,12 @@ Scrawler.prototype._engine = function(){
 
 							if (!_u._top_edge_rendered) {
 
-								// console.log(4.1, 'render', _u.progress);
-
 								_u._top_edge_rendered = true;
 								_l.callback.apply(_u, _l.callbackArgs);
-							} else {
-								// console.log(4.2, '------', _u.progress);
-							}
+							} else {}
 
 						} else {
 							// Unit locates higher than Scrawler Baseline.
-
-							// console.log(3.2);
 
 							_u._top_edge_rendered = false;
 
@@ -271,20 +253,13 @@ Scrawler.prototype._engine = function(){
 
 							if (!_u._bot_edge_rendered) {
 
-								// console.log(4.2, 'render');
-
 								_u._bot_edge_rendered = true;
 								_l.callback.apply(_u, _l.callbackArgs);
-							} else {
-								// console.log(4.2, '------', _u.progress);
-							}
-
+							} else {}
 						}
 					}
 
 				} else {
-
-					// console.log(1.2, '------', _u.progress);
 					_l.callback.apply(_u, _l.callbackArgs);
 				}
 			}
@@ -359,7 +334,7 @@ Scrawler.Util = {
 	// TODO: Add unit converter and/or range converter.
 };
 
-if (typeof define === 'function' && define.amd) define(Scrawler); else if (typeof module === 'object' && module.exports) module.exports = Scrawler;
-	this.Scrawler = Scrawler;
-
+if (typeof define === 'function' && define.amd) define(Scrawler);
+else if (typeof module === 'object' && module.exports) module.exports = Scrawler;
+else this.Scrawler = Scrawler;
 }).call(this);

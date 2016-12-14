@@ -5,9 +5,9 @@
   "main": "src/Scrawler.js",
   "scripts": {
     "server": "http-server .",
-    "watch": "mkdir -p dist && watchify -v -g uglifyify src/Scrawler.js -o dist/Scrawler.min.js",
-    "build": "mkdir -p dist && uglifyjs src/Scrawler.js -o dist/Scrawler.min.js --mangle",
-    "inst": "npm install uglifyify watchify uglify-js http-server --save-dev",
+    "watch": "watch 'npm run dist' src",
+    "dist": "mkdir -p dist && uglifyjs src/Scrawler.js -o dist/Scrawler.min.js --mangle",
+    "inst": "npm install uglify-js http-server --save-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,8 +26,6 @@
   "homepage": "https://github.com/cy-park/Scrawler#readme",
   "devDependencies": {
     "http-server": "^0.9.0",
-    "uglify-js": "^2.7.5",
-    "uglifyify": "^3.0.4",
-    "watchify": "^3.7.0"
+    "uglify-js": "^2.7.5"
   }
 }

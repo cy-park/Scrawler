@@ -6,6 +6,7 @@ CHANGELOG
 #### updates:
  - updated examples
  - added default Unit baseline value = 0 (top)
+ - removed rounding of baseline.px values
  - cleaned up AMD/commonJS modular code
  - removed unnecessary npm packages and updated package.json
 

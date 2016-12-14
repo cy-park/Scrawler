@@ -294,7 +294,7 @@ Scrawler.calcBaseline = function(baseline, el){
 			break;
 
 		case 'center':
-			_b.px = Math.round(_h/2);
+			_b.px = _h/2;
 			_b.dc = .5;
 			_b.pc = 50;
 			break;
@@ -311,7 +311,7 @@ Scrawler.calcBaseline = function(baseline, el){
 					// percent
 					_b.pc = parseFloat(baseline.replace('%',''));
 					_b.dc = _b.pc / 100;
-					_b.px = Math.round(_h*_b.dc);
+					_b.px = _h*_b.dc;
 				} else {
 					_px();
 				}
@@ -320,7 +320,7 @@ Scrawler.calcBaseline = function(baseline, el){
 			}
 			function _px() {
 				// px
-				_b.px = Math.round(parseFloat(baseline));
+				_b.px = parseFloat(baseline);
 				_b.dc = baseline/_h;
 				_b.pc = baseline/_h*100;
 			}

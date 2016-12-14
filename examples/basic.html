@@ -105,9 +105,9 @@
 </head>
 <body>
 	<ul class="scrawler-baseline-info"></ul>
-	<div class="baseline-scrawler"><span>scrawler baseline by default</span></div>
+	<div class="baseline-scrawler"><span>scrawler baseline by initial setting</span></div>
 	<div class="unit">
-		<div class="baseline-unit"><span>unit baseline by default</span></div>
+		<div class="baseline-unit"><span>unit baseline by initial setting</span></div>
 		<ul class="unit-baseline-info"></ul>
 	</div>
 	<div class="unit-info"></div>
@@ -121,8 +121,7 @@
 		// .unit baseline: 25% from unit top
 		scrawler.add({
 			el:'.unit',
-			baseline: '25%',
-
+			baseline: '25%'
 		}, function(){
 			
 			var px_info = 'this.progress.px: ' + this.progress.px + 'px / 500px (unit height)',

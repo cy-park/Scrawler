@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../src/Scrawler.js"></script>
+	<style>
+		* {box-sizing: border-box;}
+		body {
+			min-height: 200vh;
+			margin:  0;
+			padding: 75vh 0 0 0;
+			position: relative;
+			font-family: "Courier New", monospace;
+			font-size: 20px;
+			line-height: 1;
+			background: #111;
+			color: #fff;
+		}
+
+		.scrawler-baseline-info {
+			position: fixed;
+			top: 50vh;
+			left: 0;
+			width: 30vw;
+			color: #ff4;
+			z-index: 10;
+			line-height: 1.5;
+			font-size: 16px;
+		}
+
+		.scrawler-baseline-info li {
+			margin-bottom: 10px;
+		}
+
+		.scrawler-baseline-info li span {
+			color: #888;
+		}
+
+		[class^="baseline-"] {
+			width: 100%;
+			height: 4px;
+			border-top: 4px dashed;
+			opacity: .75;
+		}
+
+		.baseline-scrawler {
+			position: fixed;
+			top: calc(50vh - 2px);
+			left: 0;
+			z-index: 10;
+			border-color: #ff4;
+		}
+
+		.baseline-scrawler span {
+			position: absolute;
+			top: -30px;
+			left: 20px;
+			color: #ff4;
+		}
+
+		.unit {
+			width: 40vw;
+			height: 500px;
+			background: #026;
+			margin-left: 40vw;
+			position: relative;
+		}
+
+		.baseline-unit {
+			position: absolute;
+			top: -2px;
+			left: 0;
+			border-color: #4ff;
+		}
+
+		.baseline-unit span {
+			position: absolute;
+			top: -30px;
+			left: 20px;
+			color: #4ff;
+		}
+
+		.unit-info {
+			position: fixed;
+			top: 20px;
+			left: 20px;
+			padding: 30px;
+			line-height: 1.5;
+		}
+
+		.unit-baseline-info {
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: #4ff;
+			z-index: 10;
+			line-height: 1.5;
+			font-size: 16px;
+		}
+
+		.unit-baseline-info li {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<ul class="scrawler-baseline-info"></ul>
+	<div class="baseline-scrawler"><span>scrawler baseline by default</span></div>
+	<div class="unit">
+		<div class="baseline-unit"><span>unit baseline by default</span></div>
+		<ul class="unit-baseline-info"></ul>
+	</div>
+	<div class="unit-info"></div>
+	<script>
+		var scrawler = new Scrawler();
+
+		/**
+		 * Scrawler.baseline: position of Scrawler's baseline relative to browser viewport.
+		 * – px: pixel distance from browser viewport top.
+		 * – pc: percentage distance from browser viewport top.
+		 * – dc: decimal value distance from browser viewport top; percentage value divided by 100 (pc/100).
+		 */
+		var sb_px = 'scrawler.baseline.px: ' + scrawler.baseline.px + 'px<br><span>from browser viewport top</span>',
+			sb_dc = 'scrawler.baseline.dc: ' + scrawler.baseline.dc + '<br><span>from browser viewport top, assuming browser viewport height is 1.</span>',
+			sb_pc = 'scrawler.baseline.pc: ' + scrawler.baseline.pc + '%<br><span>from browser viewport top, assuming browser viewport height is 100%.</span>';
+
+		document.querySelector('.scrawler-baseline-info').innerHTML = '<li>'+sb_px+'</li><li>'+sb_dc+'</li><li>'+sb_pc+'</li>';
+
+		scrawler.add({el:'.unit'}, function(){
+			
+			/**
+			 * this: Scrawler.Unit;
+			 *       – Scrawler.Unit.el (DOM element)
+			 *       – Scrawler.Unit.progress
+			 *       – Scrawler.Unit.baseline
+			 */
+			// console.log(this);
+
+			/**
+			 * this.progress: progress based on scrawler baseline and unit baseline.
+			 *
+			 * – px: pixel distance.
+			 * – pc: distance by percentage based on height of the unit; 
+			 *       for instance, if the unit's height is 500px and unit baseline stays 
+			 *       500px below of scrawler baseline, percentage progress (this.progress.pc) is -100%.
+			 * – dc: decimal value; percentage value divided by 100 (pc/100).
+			 */
+			var px_info = 'this.progress.px: ' + this.progress.px + 'px / 500px (unit height)',
+				dc_info = 'this.progress.dc: ' + this.progress.dc + ' / 1',
+				pc_info = 'this.progress.pc: ' + this.progress.pc + '% / 100%';
+
+			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+dc_info+'<br>'+pc_info;
+
+			var ub_px = 'this.baseline.px: ' + this.baseline.px + 'px / 500px (unit height)',
+				ub_dc = 'this.baseline.dc: ' + this.baseline.dc + ' / 1',
+				ub_pc = 'this.baseline.pc: ' + this.baseline.pc + '% / 100%';
+
+			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_dc+'</li><li>'+ub_pc+'</li>';
+
+			this.map(0, {from:[250,350], to:[-200,200]}, function(val){
+				this.el.style.left = val+'px';
+			});
+
+			this.map(1, {from:[150,250], to:[0.5,1]}, function(val){
+				this.el.style.opacity = val;
+			});
+
+		}).run();
+	</script>
+</body>
+</html>

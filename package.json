@@ -1,7 +1,7 @@
 {
   "name": "scrawler",
-  "version": "0.0.1",
-  "description": "A javascript vertical parallax library.",
+  "version": "0.0.2",
+  "description": "A vertical parallax library.",
   "main": "src/Scrawler.js",
   "scripts": {
     "server": "http-server .",

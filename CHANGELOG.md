@@ -1,9 +1,10 @@
 CHANGELOG
 =========
 
-## 0.0.2 (Unreleased)
+## 0.0.2 (2016-12-14, Alpha Release)
 
 #### updates:
+ - added edge detection in mapped ranges
  - updated examples
  - added default Unit baseline value = 0 (top)
  - removed rounding of baseline.px values

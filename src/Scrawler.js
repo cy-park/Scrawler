@@ -78,20 +78,15 @@ Scrawler.Unit = function(args){
 	this.progress = args.progress;
 	this._top_edge_rendered = false;
 	this._bot_edge_rendered = false;
+	this.maps = args.maps || {};
 };
 
-Scrawler.Map = function(args, callback, callbackArgs){
-	this.from = args.from;
-	this.to = args.to || [0,1];
-	this.callback = callback;
-	this.callbackArgs = callbackArgs;
-	// TODO: Create top/bottom edge checker class and use it for Unit & UnitMap
-};
+Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 
-Scrawler.Unit.prototype.map = function(args, callback, callbackArgs){
-
+	mid = mid.toString();
 	args.to = args.to || [0,1];
 	callbackArgs = callbackArgs || [];
+	this.maps[mid] = this.maps[mid] || {_top_edge_rendered: false, _bot_edge_rendered: false};
 
 	var f0 = args.from[0],
 		f1 = args.from[1],
@@ -114,14 +109,43 @@ Scrawler.Unit.prototype.map = function(args, callback, callbackArgs){
 	}
 
 	var prg = this.progress[range_unit];
-	if (prg < f0) prg = f0;
-	else if (prg > f1) prg = f1;
+	var _m = this.maps[mid];
 
-	val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
-	callbackArgs.unshift(val)
-	callback.apply(this, callbackArgs);
+	if (f0 <= prg && prg <= f1) {
 
-	// TODO: Add top/bottom edge checker & apply Map class.
+		_m._top_edge_rendered = false;
+		_m._bot_edge_rendered = false;
+		val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
+		callbackArgs.unshift(val);
+		callback.apply(this, callbackArgs);
+
+	} else {
+
+		if (prg < f0) {
+
+			_m._bot_edge_rendered = false;
+
+			if (!_m._top_edge_rendered) {
+				_m._top_edge_rendered = true;
+				prg = f0;
+				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
+				callbackArgs.unshift(val);
+				callback.apply(this, callbackArgs);
+			}
+
+		} else {
+
+			_m._top_edge_rendered = false;
+
+			if (!_m._bot_edge_rendered) {
+				_m._bot_edge_rendered = true;
+				prg = f1;
+				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
+				callbackArgs.unshift(val);
+				callback.apply(this, callbackArgs);
+			}
+		}
+	}
 };
 
 Scrawler.Position = function(args){

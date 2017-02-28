@@ -276,13 +276,13 @@ Scrawler.prototype._engine = function(){
 	if (root.idling < 0 ||
 		(root.idling === 0 && root._dir !== 'stay') ||
 		root._idle_rounds < root.idling) {
- console.log(0, root.idling,root._dir,root._idle_rounds);
+ 
 		updateUnitPositions();
 
 		root._prev_px_position = window.pageYOffset;
 		root.run();
 
-	} else { console.log(1, root.idling,root._dir,root._idle_rounds); if (root._raf) root.pause(); }
+	} else { if (root._raf) root.pause(); }
 };
 
 function updateScrawlerDirection(resizing){
@@ -372,7 +372,7 @@ function updateUnitPositions(){
 					}
 				}
 
-			} else {console.log('sadfsd')
+			} else {
 				_l.callback.apply(_u, _l.callbackArgs);
 			}
 		}

@@ -131,37 +131,39 @@ Scrawler.prototype.sort = function(){
  */
 Scrawler.Logic = function(args, callback, callbackArgs){
 
-	root.id = args.id;
-	root.el = args.el;
-	root.order = args.order || 0;
-	root.callback = callback;
-	root.callbackArgs = callbackArgs || [];
-	root.range = args.range || null; // Array(2) with From and To values. 
-	root.baseline = args.baseline||0;
-	root.nodelist = document.querySelectorAll(args.el);
-	root.units = [];
-	for (var i = 0; i < root.nodelist.length; i++) {
-		root.units[i] = new Scrawler.Unit({
-			el: root.nodelist[i],
-			baseline: Scrawler.calcBaseline(root.baseline, root.nodelist[i]),
+	var self = this;
+
+	self.id = args.id;
+	self.el = args.el;
+	self.order = args.order || 0;
+	self.callback = callback;
+	self.callbackArgs = callbackArgs || [];
+	self.range = args.range || null; // Array(2) with From and To values. 
+	self.baseline = args.baseline||0;
+	self.nodelist = document.querySelectorAll(args.el);
+	self.units = [];
+	for (var i = 0; i < self.nodelist.length; i++) {
+		self.units[i] = new Scrawler.Unit({
+			el: self.nodelist[i],
+			baseline: Scrawler.calcBaseline(self.baseline, self.nodelist[i]),
 			progress: new Scrawler.Position()
 		});
 	}
 
-	root._range_unit;
+	self._range_unit;
 
-	if (root.range) {
-		if (typeof root.range[0] === 'string') {
-			if (root.range[0].indexOf('%') !== -1) {
+	if (self.range) {
+		if (typeof self.range[0] === 'string') {
+			if (self.range[0].indexOf('%') !== -1) {
 				// percent
-				root.range[0] = parseFloat(root.range[0].replace('%','')) / 100;
-				root.range[1] = parseFloat(root.range[1].replace('%','')) / 100;
-				root._range_unit = 'dc';
+				self.range[0] = parseFloat(self.range[0].replace('%','')) / 100;
+				self.range[1] = parseFloat(self.range[1].replace('%','')) / 100;
+				self._range_unit = 'dc';
 			} else {
-				root._range_unit = 'px';
+				self._range_unit = 'px';
 			}
 		} else {
-			root._range_unit = 'px';
+			self._range_unit = 'px';
 		}
 	}
 
@@ -267,122 +269,134 @@ Scrawler.prototype.pause = function(){
 	return this;
 };
 
-Scrawler.prototype._engine = function(){ console.log (this._prev_px_position, window.pageYOffset )
+Scrawler.prototype._engine = function(){
 
-	if (this._prev_px_position === window.pageYOffset) {
-		if (this._dir === 'stay') {
-			if (this.idling >= 0) this._idle_rounds++;
-		} else if (this._dir === '') {
-			this._dir = 'initialized';
-		} else {
-			this._dir = 'stay';
-		}
+	updateScrawlerDirection();
+
+	if (root.idling < 0 ||
+		(root.idling === 0 && root._dir !== 'stay') ||
+		root._idle_rounds < root.idling) {
+ console.log(0, root.idling,root._dir,root._idle_rounds);
+		updateUnitPositions();
+
+		root._prev_px_position = window.pageYOffset;
+		root.run();
+
+	} else { console.log(1, root.idling,root._dir,root._idle_rounds); if (root._raf) root.pause(); }
+};
+
+function updateScrawlerDirection(resizing){
+	if (resizing) {
+		root._dir = 'resizing';
 	} else {
-		this._idle_rounds = 0;
-		if (this._prev_px_position < window.pageYOffset) this._dir = 'down';
-		else this._dir = 'up';
+		if (root._prev_px_position === window.pageYOffset) {
+			if (root._dir === 'stay') {
+				if (root.idling >= 0) root._idle_rounds++;
+			} else if (root._dir === '') {
+				root._dir = 'initialized';
+			} else {
+				root._dir = 'stay';
+			}
+		} else {
+			root._idle_rounds = 0;
+			if (root._prev_px_position < window.pageYOffset) root._dir = 'down';
+			else root._dir = 'up';
+		}
 	}
+}
 
+function updateUnitPositions(){
+	for (var i = 0; i < root._logics.length; i++) {
+		var _l  = root._logics[i];
+		for (var j = 0; j < _l.units.length; j++) {
+			var _u = _l.units[j];
+			var _bcr = _u.el.getBoundingClientRect();
+			// Update progress of each unit in a logic.
+			_u.progress.px = root.baseline.px - (_bcr.top+_u.baseline.px);
+			_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
+			_u.progress.pc = _u.progress.dc * 100;
 
-	console.log (this._dir)
+			if (_l.range) {
 
-	if (this.idling < 0 ||
-		(this.idling === 0 && this._dir !== 'stay') ||
-		this._idle_rounds < this.idling) {
+				if (_l.range[0] <= _u.progress[_l._range_unit] && _u.progress[_l._range_unit] <= _l.range[1]) {
+					// In range
 
-		for (var i = 0; i < this._logics.length; i++) {
-			var _l  = this._logics[i];
-			for (var j = 0; j < _l.units.length; j++) {
-				var _u = _l.units[j];
-				var _bcr = _u.el.getBoundingClientRect();
-				// Update progress of each unit in a logic.
-				_u.progress.px = this.baseline.px - (_bcr.top+_u.baseline.px);
-				_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-				_u.progress.pc = _u.progress.dc * 100;
-
-				if (_l.range) {
-
-					if (_l.range[0] <= _u.progress[_l._range_unit] && _u.progress[_l._range_unit] <= _l.range[1]) {
-						// In range
-
-						_u._top_edge_rendered = false;
-						_u._bot_edge_rendered = false;
-						_l.callback.apply(_u, _l.callbackArgs);
-
-					} else {
-						// Out of range
-
-						if (_u.progress[_l._range_unit] < _l.range[0]) {
-							// Unit locates lower than Scrawler Baseline.
-
-							_u._bot_edge_rendered = false;
-
-							if (_l._range_unit === 'px') {
-								_u.progress.px = _l.range[0];
-								_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-								_u.progress.pc = _u.progress.dc * 100;
-							} else { // === 'dc'
-								_u.progress.dc = _l.range[0];
-								_u.progress.px = _bcr.height * _u.progress.dc;
-								_u.progress.pc = _u.progress.dc * 100;
-							}
-
-							if (!_u._top_edge_rendered) {
-
-								_u._top_edge_rendered = true;
-								_l.callback.apply(_u, _l.callbackArgs);
-							} else {}
-
-						} else {
-							// Unit locates higher than Scrawler Baseline.
-
-							_u._top_edge_rendered = false;
-
-							if (_l._range_unit === 'px') {
-								_u.progress.px = _l.range[1];
-								_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-								_u.progress.pc = _u.progress.dc * 100;
-							} else { // === 'dc'
-								_u.progress.dc = _l.range[1];
-								_u.progress.px = _bcr.height * _u.progress.dc;
-								_u.progress.pc = _u.progress.dc * 100;
-							}
-
-							if (!_u._bot_edge_rendered) {
-
-								_u._bot_edge_rendered = true;
-								_l.callback.apply(_u, _l.callbackArgs);
-							} else {}
-						}
-					}
+					_u._top_edge_rendered = false;
+					_u._bot_edge_rendered = false;
+					_l.callback.apply(_u, _l.callbackArgs);
 
 				} else {
-					_l.callback.apply(_u, _l.callbackArgs);
+					// Out of range
+
+					if (_u.progress[_l._range_unit] < _l.range[0]) {
+						// Unit locates lower than Scrawler Baseline.
+
+						_u._bot_edge_rendered = false;
+
+						if (_l._range_unit === 'px') {
+							_u.progress.px = _l.range[0];
+							_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
+							_u.progress.pc = _u.progress.dc * 100;
+						} else { // === 'dc'
+							_u.progress.dc = _l.range[0];
+							_u.progress.px = _bcr.height * _u.progress.dc;
+							_u.progress.pc = _u.progress.dc * 100;
+						}
+
+						if (!_u._top_edge_rendered) {
+
+							_u._top_edge_rendered = true;
+							_l.callback.apply(_u, _l.callbackArgs);
+						} else {}
+
+					} else {
+						// Unit locates higher than Scrawler Baseline.
+
+						_u._top_edge_rendered = false;
+
+						if (_l._range_unit === 'px') {
+							_u.progress.px = _l.range[1];
+							_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
+							_u.progress.pc = _u.progress.dc * 100;
+						} else { // === 'dc'
+							_u.progress.dc = _l.range[1];
+							_u.progress.px = _bcr.height * _u.progress.dc;
+							_u.progress.pc = _u.progress.dc * 100;
+						}
+
+						if (!_u._bot_edge_rendered) {
+
+							_u._bot_edge_rendered = true;
+							_l.callback.apply(_u, _l.callbackArgs);
+						} else {}
+					}
 				}
+
+			} else {console.log('sadfsd')
+				_l.callback.apply(_u, _l.callbackArgs);
 			}
 		}
-
-		this._prev_px_position = window.pageYOffset;
-		this.run();
-
-	} else { if (this._raf) this.pause(); }
-};
+	}
+}
 
 Scrawler.prototype.onResize = function(e){
 	// Update this._prev_px_position
 	// Update baseline
-console.log('res')
-	this.baseline = Scrawler.calcBaseline(this._original_baseline);
 
-	for (var i = 0; i < this._logics.length; i++) {
-		var _l  = this._logics[i];
+	updateScrawlerDirection(true);
+
+	root.baseline = Scrawler.calcBaseline(root._original_baseline);
+
+	for (var i = 0; i < root._logics.length; i++) {
+		var _l  = root._logics[i];
 		for (var j = 0; j < _l.units.length; j++) {
 			var _u = _l.units[j];
 			_u.baseline = Scrawler.calcBaseline(_l.baseline, _u.el);
 		}
 	}
 
-	this.run();
+	updateUnitPositions();
+	root._prev_px_position = window.pageYOffset;
 };
 
 Scrawler.prototype.onScroll = function(e){

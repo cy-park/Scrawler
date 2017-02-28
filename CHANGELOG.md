@@ -4,7 +4,7 @@ CHANGELOG
 
 ## 0.1.2 (pre-release)
 
-## 0.1.1 (2017-02-28, pre-release)
+## 0.1.1 (2017-02-28, beta release)
 
 #### updates:
  - removed console.logs

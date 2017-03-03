@@ -2,7 +2,16 @@ CHANGELOG
 =========
 
 
-## 0.1.2 (pre-release)
+## 0.2.1 (pre-release)
+
+## 0.2.0 (2017-03-02, beta release)
+
+#### features:
+ - added Scrawler.watch() (for externa rAF use cases)
+ - added Scrawler.refresh()
+
+#### updates:
+ - minor performance enhancement
 
 ## 0.1.1 (2017-02-28, beta release)
 

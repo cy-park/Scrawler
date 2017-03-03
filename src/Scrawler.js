@@ -64,8 +64,9 @@ var Scrawler = function(args) {
 	// Idle engine round counter
 	root._idle_rounds = 0;
 
-	window.addEventListener('resize', root.onResize.bind(root));
-	window.addEventListener('scroll', root.onScroll.bind(root));
+	root._scroll_event_initialized = false;
+
+	window.addEventListener('resize', root.refresh);
 };
 
 /**
@@ -100,26 +101,26 @@ var Scrawler = function(args) {
  *		  args for callback function
  */
 Scrawler.prototype.add = function(args, callback, callbackArgs){
-	args.id = args.id || 'lid_'+this._logics.length;
-	this._logics.push(new Scrawler.Logic(args, callback, callbackArgs));
-	return this;
+	args.id = args.id || 'lid_'+root._logics.length;
+	root._logics.push(new Scrawler.Logic(args, callback, callbackArgs));
+	return root;
 };
 
 Scrawler.prototype.remove = function(lid){
-	for (var i = 0; i < this._logics.length; i++) {
-		if (this._logics[i].id === lid) {
-			this._logics.splice(i, 1);
-			return this;
+	for (var i = 0; i < root._logics.length; i++) {
+		if (root._logics[i].id === lid) {
+			root._logics.splice(i, 1);
+			return root;
 		}
 	}
-	return this;
+	return root;
 };
 
 Scrawler.prototype.sort = function(){
-	this._logics.sort(function(a, b){
+	root._logics.sort(function(a, b){
 		return a.order - b.order;
 	});
-	return this;
+	return root;
 };
 
 /**
@@ -171,20 +172,25 @@ Scrawler.Logic = function(args, callback, callbackArgs){
 };
 
 Scrawler.Unit = function(args){
-	this.el = args.el;
-	this.baseline = args.baseline;
-	this.progress = args.progress;
-	this._top_edge_rendered = false;
-	this._bot_edge_rendered = false;
-	this.maps = args.maps || {};
+	
+	var self = this;
+
+	self.el = args.el;
+	self.baseline = args.baseline;
+	self.progress = args.progress;
+	self._top_edge_rendered = false;
+	self._bot_edge_rendered = false;
+	self.maps = args.maps || {};
 };
 
 Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 
+	var self = this;
+
 	mid = mid.toString();
 	args.to = args.to || [0,1];
 	callbackArgs = callbackArgs || [];
-	this.maps[mid] = this.maps[mid] || {_top_edge_rendered: false, _bot_edge_rendered: false};
+	self.maps[mid] = self.maps[mid] || {_top_edge_rendered: false, _bot_edge_rendered: false};
 
 	var f0 = args.from[0],
 		f1 = args.from[1],
@@ -206,8 +212,8 @@ Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 		range_unit = 'px'
 	}
 
-	var prg = this.progress[range_unit];
-	var _m = this.maps[mid];
+	var prg = self.progress[range_unit];
+	var _m = self.maps[mid];
 
 	if (f0 <= prg && prg <= f1) {
 
@@ -215,7 +221,7 @@ Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 		_m._bot_edge_rendered = false;
 		val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 		callbackArgs.unshift(val);
-		callback.apply(this, callbackArgs);
+		callback.apply(self, callbackArgs);
 
 	} else {
 
@@ -228,7 +234,7 @@ Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 				prg = f0;
 				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 				callbackArgs.unshift(val);
-				callback.apply(this, callbackArgs);
+				callback.apply(self, callbackArgs);
 			}
 
 		} else {
@@ -240,17 +246,18 @@ Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 				prg = f1;
 				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 				callbackArgs.unshift(val);
-				callback.apply(this, callbackArgs);
+				callback.apply(self, callbackArgs);
 			}
 		}
 	}
 };
 
 Scrawler.Position = function(args){
+	var self = this;
 	args = args || {};
-	this.px = args.px || undefined; // pixel
-	this.dc = args.dc || undefined; // decimal
-	this.pc = args.pc || undefined; // percent
+	self.px = args.px || undefined; // pixel
+	self.dc = args.dc || undefined; // decimal
+	self.pc = args.pc || undefined; // percent
 }
 
 Scrawler.Position.prototype.compareTo = function(position){
@@ -258,18 +265,31 @@ Scrawler.Position.prototype.compareTo = function(position){
 	return new Scrawler.Position();
 };
 
+Scrawler.prototype.watch = function(pause){
+	if (!pause) {
+		updateScrawlerDirection();
+		updateUnitPositions();
+		root._prev_px_position = window.pageYOffset;
+	}
+	return root;
+};
+
 Scrawler.prototype.run = function(){
-	this._raf = window.requestAnimationFrame(this._engine.bind(this));
-	return this;
+	if (!root._scroll_event_initialized) {
+		root._scroll_event_initialized = true;
+		window.addEventListener('scroll', root.run);
+	}
+	root._raf = window.requestAnimationFrame(engine);
+	return root;
 };
 
 Scrawler.prototype.pause = function(){
-	window.cancelAnimationFrame(this._raf);
-	this._raf = null;
-	return this;
+	window.cancelAnimationFrame(root._raf);
+	root._raf = null;
+	return root;
 };
 
-Scrawler.prototype._engine = function(){
+function engine() {
 
 	updateScrawlerDirection();
 
@@ -280,10 +300,10 @@ Scrawler.prototype._engine = function(){
 		updateUnitPositions();
 
 		root._prev_px_position = window.pageYOffset;
-		root.run();
+		root._raf = window.requestAnimationFrame(engine);
 
 	} else { if (root._raf) root.pause(); }
-};
+}
 
 function updateScrawlerDirection(resizing){
 	if (resizing) {
@@ -379,9 +399,7 @@ function updateUnitPositions(){
 	}
 }
 
-Scrawler.prototype.onResize = function(e){
-	// Update this._prev_px_position
-	// Update baseline
+Scrawler.prototype.refresh = function(e){
 
 	updateScrawlerDirection(true);
 
@@ -397,10 +415,6 @@ Scrawler.prototype.onResize = function(e){
 
 	updateUnitPositions();
 	root._prev_px_position = window.pageYOffset;
-};
-
-Scrawler.prototype.onScroll = function(e){
-	this.run();
 };
 
 Scrawler.calcBaseline = function(baseline, el){

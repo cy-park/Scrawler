@@ -2,7 +2,12 @@ CHANGELOG
 =========
 
 
-## 0.2.1 (pre-release)
+## 0.2.2 (pre-release)
+
+## 0.2.1 (2017-03-06, beta release)
+
+#### fixes:
+ - fixed baseline calc fn to run on ES5 strict mode
 
 ## 0.2.0 (2017-03-02, beta release)
 

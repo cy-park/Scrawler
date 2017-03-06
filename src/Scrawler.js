@@ -443,6 +443,12 @@ Scrawler.calcBaseline = function(baseline, el){
 			break;
 
 		default:
+			var _px = function(){
+				// px
+				_b.px = parseFloat(baseline);
+				_b.dc = baseline/_h;
+				_b.pc = baseline/_h*100;
+			};
 			if (typeof baseline === 'string') {
 				if (baseline.indexOf('%') !== -1) {
 					// percent
@@ -454,12 +460,6 @@ Scrawler.calcBaseline = function(baseline, el){
 				}
 			} else {
 				_px();
-			}
-			function _px() {
-				// px
-				_b.px = parseFloat(baseline);
-				_b.dc = baseline/_h;
-				_b.pc = baseline/_h*100;
 			}
 			break;
 	}

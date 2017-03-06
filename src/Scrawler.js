@@ -87,7 +87,11 @@ var Scrawler = function(args) {
  *		  If null, the callback function will run regardless of scroll position.
  *		  Range can be either percentage or pixel. 
  *		  i.e.) ['0%','100%'] or [0, 5000]
- // STOP_HERE: was commenting on params
+ * @param {int|string} [args.baseline] (default: 0)
+ *		  Scrawler's baseline position. All units will reference this baseline.
+ *		  Available values:
+ *		  - integer: pixel distance from the top of the viewport.
+ *		  - string: 'top', 'center', 'bottom', or '0%' to '100%' as a string
  * @param {string} [args.id] (default: random)
  *		  Logic ID. Required if this Logic is expected to be removed later.
  * @param {int} args.order (default: 0)
@@ -127,6 +131,7 @@ Scrawler.prototype.sort = function(){
  * Class Scrawler.Logic(args, callback, callbackArgs)
  * 
  * @param {object} args
+ * 		  - refer to Scrawler.prototype.add() for more info.
  * @param {function} callback
  * @param {array} callbackArgs
  */
@@ -167,8 +172,6 @@ Scrawler.Logic = function(args, callback, callbackArgs){
 			self._range_unit = 'px';
 		}
 	}
-
-	// TODO: Feature to override Scrawler Viewport Baseline.
 };
 
 Scrawler.Unit = function(args){

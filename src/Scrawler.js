@@ -88,7 +88,7 @@ var Scrawler = function(args) {
  *		  Range can be either percentage or pixel. 
  *		  i.e.) ['0%','100%'] or [0, 5000]
  * @param {int|string} [args.baseline] (default: 0)
- *		  Scrawler's baseline position. All units will reference this baseline.
+ *		  The DOM element's baseline position. Scrawler measures the distance between viewport baseline and this baseline.
  *		  Available values:
  *		  - integer: pixel distance from the top of the viewport.
  *		  - string: 'top', 'center', 'bottom', or '0%' to '100%' as a string

@@ -2,59 +2,68 @@ CHANGELOG
 =========
 
 
-## 0.2.2 (pre-release)
+## 0.3.0 (pre-release)
+
+#### breaking changes:
+- replaced `Scrawler.Position.dc` with `Scrawler.Position.f`, meaning unit interval (fraction/float). same usage, only name changed.
+
+- removed `Scrawler.Position.pc`. No percentage value provided any more.
+
+#### updates:
+- updated examples for breaking changes above
+- changed name in License
 
 ## 0.2.1 (2017-03-06, beta release)
 
 #### fixes:
- - fixed baseline calc fn to run on ES5 strict mode
+- fixed baseline calc fn to run on ES5 strict mode
 
 ## 0.2.0 (2017-03-02, beta release)
 
 #### features:
- - added Scrawler.watch() (for externa rAF use cases)
- - added Scrawler.refresh()
+- added Scrawler.watch() (for externa rAF use cases)
+- added Scrawler.refresh()
 
 #### updates:
- - minor performance enhancement
+- minor performance enhancement
 
 ## 0.1.1 (2017-02-28, beta release)
 
 #### updates:
- - removed console.logs
+- removed console.logs
 
 ## 0.1.0 (2017-02-28, beta release)
 
 #### features:
- - added onResize recalculation
+- added onResize recalculation
 
 #### updates:
- - minor changes in code arrangement
+- minor changes in code arrangement
 
 ## 0.0.2 (2016-12-14, alpha release)
 
 #### updates:
- - added edge detection in mapped ranges
- - updated examples
- - added default Unit baseline value = 0 (top)
- - removed rounding of baseline.px values
- - cleaned up AMD/commonJS modular code
- - removed unnecessary npm packages and updated package.json
+- added edge detection in mapped ranges
+- updated examples
+- added default Unit baseline value = 0 (top)
+- removed rounding of baseline.px values
+- cleaned up AMD/commonJS modular code
+- removed unnecessary npm packages and updated package.json
 
 #### fixes:
- - fixed watch script in package.json
- - added default args value of Scrawler constructor
+- fixed watch script in package.json
+- added default args value of Scrawler constructor
 
 ## 0.0.1 (2016-12-13, alpha release)
 
 #### features:
- - introduced basic Scrawler functions: add, remove, sort, run, pause
- - introduced a position mapping function: map
+- introduced basic Scrawler functions: add, remove, sort, run, pause
+- introduced a position mapping function: map
 
 ## Initial Commit (2016-11-29)
 
 #### features:
- - added bolierplate files
+- added bolierplate files
 
 
 

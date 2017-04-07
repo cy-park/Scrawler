@@ -117,14 +117,12 @@
 		/**
 		 * Scrawler.baseline: position of Scrawler's baseline relative to browser viewport.
 		 * – px: pixel distance from browser viewport top.
-		 * – pc: percentage distance from browser viewport top.
-		 * – dc: decimal value distance from browser viewport top; percentage value divided by 100 (pc/100).
+		 * – f:  unit interval value distance from browser viewport top; 0 to 1 scale.
 		 */
 		var sb_px = 'scrawler.baseline.px: ' + scrawler.baseline.px + 'px<br><span>from browser viewport top</span>',
-			sb_dc = 'scrawler.baseline.dc: ' + scrawler.baseline.dc + '<br><span>from browser viewport top, assuming browser viewport height is 1.</span>',
-			sb_pc = 'scrawler.baseline.pc: ' + scrawler.baseline.pc + '%<br><span>from browser viewport top, assuming browser viewport height is 100%.</span>';
+			sb_f = 'scrawler.baseline.f: ' + scrawler.baseline.f + '<br><span>from browser viewport top, assuming browser viewport height is 1.</span>';
 
-		document.querySelector('.scrawler-baseline-info').innerHTML = '<li>'+sb_px+'</li><li>'+sb_dc+'</li><li>'+sb_pc+'</li>';
+		document.querySelector('.scrawler-baseline-info').innerHTML = '<li>'+sb_px+'</li><li>'+sb_f+'</li>';
 
 		scrawler.add({el:'.unit'}, function(){
 			
@@ -140,22 +138,19 @@
 			 * this.progress: progress based on scrawler baseline and unit baseline.
 			 *
 			 * – px: pixel distance.
-			 * – pc: distance by percentage based on height of the unit; 
-			 *       for instance, if the unit's height is 500px and unit baseline stays 
-			 *       500px below of scrawler baseline, percentage progress (this.progress.pc) is -100%.
-			 * – dc: decimal value; percentage value divided by 100 (pc/100).
+			 * – f:  proportional distance based on height of the unit; 0 to 1 scale
+			 *       for instance, if the unit's height is 100px and unit baseline stays 
+			 *       50px below of scrawler baseline, percentage progress (this.progress.f) is -0.5.
 			 */
 			var px_info = 'this.progress.px: ' + this.progress.px + 'px / 500px (unit height)',
-				dc_info = 'this.progress.dc: ' + this.progress.dc + ' / 1',
-				pc_info = 'this.progress.pc: ' + this.progress.pc + '% / 100%';
+				f_info = 'this.progress.f: ' + this.progress.f + ' / 1';
 
-			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+dc_info+'<br>'+pc_info;
+			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+f_info;
 
 			var ub_px = 'this.baseline.px: ' + this.baseline.px + 'px / 500px (unit height)',
-				ub_dc = 'this.baseline.dc: ' + this.baseline.dc + ' / 1',
-				ub_pc = 'this.baseline.pc: ' + this.baseline.pc + '% / 100%';
+				ub_f = 'this.baseline.f: ' + this.baseline.f + ' / 1';
 
-			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_dc+'</li><li>'+ub_pc+'</li>';
+			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_f+'</li>';
 
 		}).run();
 	</script>

@@ -125,24 +125,21 @@
 		}, function(){
 			
 			var px_info = 'this.progress.px: ' + this.progress.px + 'px / 500px (unit height)',
-				dc_info = 'this.progress.dc: ' + this.progress.dc + ' / 1',
-				pc_info = 'this.progress.pc: ' + this.progress.pc + '% / 100%';
+				f_info  = 'this.progress.f: ' + this.progress.f + ' / 1';
 
-			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+dc_info+'<br>'+pc_info;
+			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+f_info;
 
 			var ub_px = 'this.baseline.px: ' + this.baseline.px + 'px / 500px (unit height)',
-				ub_dc = 'this.baseline.dc: ' + this.baseline.dc + ' / 1',
-				ub_pc = 'this.baseline.pc: ' + this.baseline.pc + '% / 100%';
+				ub_f = 'this.baseline.f: ' + this.baseline.f + ' / 1';
 
-			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_dc+'</li><li>'+ub_pc+'</li>';
+			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_f+'</li>';
 
 		}).run();
 
 		var sb_px = 'scrawler.baseline.px: ' + scrawler.baseline.px + 'px<br><span>from browser viewport top</span>',
-			sb_dc = 'scrawler.baseline.dc: ' + scrawler.baseline.dc + '<br><span>from browser viewport top, assuming browser viewport height is 1.</span>',
-			sb_pc = 'scrawler.baseline.pc: ' + scrawler.baseline.pc + '%<br><span>from browser viewport top, assuming browser viewport height is 100%.</span>';
+			sb_f  = 'scrawler.baseline.f: ' + scrawler.baseline.f + '<br><span>from browser viewport top, assuming browser viewport height is 1.</span>';
 
-		document.querySelector('.scrawler-baseline-info').innerHTML = '<li>'+sb_px+'</li><li>'+sb_dc+'</li><li>'+sb_pc+'</li>';
+		document.querySelector('.scrawler-baseline-info').innerHTML = '<li>'+sb_px+'</li><li>'+sb_f+'</li>';
 	</script>
 </body>
 </html>

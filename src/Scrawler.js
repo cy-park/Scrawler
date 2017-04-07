@@ -1,4 +1,4 @@
-// Supports modern browsers & IE10+
+/*! Scrawler.js v0.3.0 | (c) 2016-2017 Chan Young Park | MIT License */
 
 ;(function(){
 
@@ -38,7 +38,7 @@ var Scrawler = function(args) {
 	// Variable to store original baseline value from args
 	root._original_baseline = args.baseline || 'center';
 
-	// Baseline value converted to Scrawler.Position() === {px:N, dc:N, pc:N}
+	// Baseline value converted to Scrawler.Position() === {px:N, f:N}
 	root.baseline = Scrawler.calcBaseline(root._original_baseline);
 
 	// Are we gonna sort Logics?
@@ -103,6 +103,8 @@ var Scrawler = function(args) {
  *		  selected by args.el when scroll events happen.
  * @param {array} [callbackArgs]
  *		  args for callback function
+ *
+ * @return {Scrawler} Scrawler object
  */
 Scrawler.prototype.add = function(args, callback, callbackArgs){
 	args.id = args.id || 'lid_'+root._logics.length;
@@ -110,6 +112,16 @@ Scrawler.prototype.add = function(args, callback, callbackArgs){
 	return root;
 };
 
+/**
+ * Public Function Scrawler.Remove(lid)
+ *
+ * Remove a Logic from Scrawler.
+ *
+ * @param {string} lid
+ *		  ID for Logic to remove
+ *
+ * @return {Scrawler} Scrawler object
+ */
 Scrawler.prototype.remove = function(lid){
 	for (var i = 0; i < root._logics.length; i++) {
 		if (root._logics[i].id === lid) {
@@ -164,7 +176,7 @@ Scrawler.Logic = function(args, callback, callbackArgs){
 				// percent
 				self.range[0] = parseFloat(self.range[0].replace('%','')) / 100;
 				self.range[1] = parseFloat(self.range[1].replace('%','')) / 100;
-				self._range_unit = 'dc';
+				self._range_unit = 'f';
 			} else {
 				self._range_unit = 'px';
 			}
@@ -205,9 +217,9 @@ Scrawler.Unit.prototype.map = function(mid, args, callback, callbackArgs){
 	if (typeof f0 === 'string') {
 		if (f0.indexOf('%') !== -1) {
 			// percent
-			range_unit = 'pc'
-			f0 = parseFloat(f0.replace('%',''));
-			f1 = parseFloat(f1.replace('%',''));
+			range_unit = 'f'
+			f0 = parseFloat(f0.replace('%','')) / 100;
+			f1 = parseFloat(f1.replace('%','')) / 100;
 		} else {
 			range_unit = 'px'
 		}
@@ -259,14 +271,8 @@ Scrawler.Position = function(args){
 	var self = this;
 	args = args || {};
 	self.px = args.px || undefined; // pixel
-	self.dc = args.dc || undefined; // decimal
-	self.pc = args.pc || undefined; // percent
+	self.f  = args.f  || undefined; // unit interval (fraction/float)
 }
-
-Scrawler.Position.prototype.compareTo = function(position){
-	// TODO: Develop compareTo method.
-	return new Scrawler.Position();
-};
 
 Scrawler.prototype.watch = function(pause){
 	if (!pause) {
@@ -336,8 +342,7 @@ function updateUnitPositions(){
 			var _bcr = _u.el.getBoundingClientRect();
 			// Update progress of each unit in a logic.
 			_u.progress.px = root.baseline.px - (_bcr.top+_u.baseline.px);
-			_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-			_u.progress.pc = _u.progress.dc * 100;
+			_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 
 			if (_l.range) {
 
@@ -358,16 +363,13 @@ function updateUnitPositions(){
 
 						if (_l._range_unit === 'px') {
 							_u.progress.px = _l.range[0];
-							_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-							_u.progress.pc = _u.progress.dc * 100;
-						} else { // === 'dc'
-							_u.progress.dc = _l.range[0];
-							_u.progress.px = _bcr.height * _u.progress.dc;
-							_u.progress.pc = _u.progress.dc * 100;
+							_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
+						} else { // === 'f'
+							_u.progress.f  = _l.range[0];
+							_u.progress.px = _bcr.height * _u.progress.f;
 						}
 
 						if (!_u._top_edge_rendered) {
-
 							_u._top_edge_rendered = true;
 							_l.callback.apply(_u, _l.callbackArgs);
 						} else {}
@@ -379,16 +381,13 @@ function updateUnitPositions(){
 
 						if (_l._range_unit === 'px') {
 							_u.progress.px = _l.range[1];
-							_u.progress.dc = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
-							_u.progress.pc = _u.progress.dc * 100;
-						} else { // === 'dc'
-							_u.progress.dc = _l.range[1];
-							_u.progress.px = _bcr.height * _u.progress.dc;
-							_u.progress.pc = _u.progress.dc * 100;
+							_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
+						} else { // === 'f'
+							_u.progress.f  = _l.range[1];
+							_u.progress.px = _bcr.height * _u.progress.f;
 						}
 
 						if (!_u._bot_edge_rendered) {
-
 							_u._bot_edge_rendered = true;
 							_l.callback.apply(_u, _l.callbackArgs);
 						} else {}
@@ -429,35 +428,30 @@ Scrawler.calcBaseline = function(baseline, el){
 
 		case 'top':
 			_b.px = 0;
-			_b.dc = 0;
-			_b.pc = 0;
+			_b.f  = 0;
 			break;
 
 		case 'center':
 			_b.px = _h/2;
-			_b.dc = .5;
-			_b.pc = 50;
+			_b.f  = .5;
 			break;
 
 		case 'bottom':
 			_b.px = _h;
-			_b.dc = 1;
-			_b.pc = 100;
+			_b.f  = 1;
 			break;
 
 		default:
 			var _px = function(){
 				// px
 				_b.px = parseFloat(baseline);
-				_b.dc = baseline/_h;
-				_b.pc = baseline/_h*100;
+				_b.f  = baseline/_h;
 			};
 			if (typeof baseline === 'string') {
 				if (baseline.indexOf('%') !== -1) {
 					// percent
-					_b.pc = parseFloat(baseline.replace('%',''));
-					_b.dc = _b.pc / 100;
-					_b.px = _h*_b.dc;
+					_b.f  = parseFloat(baseline.replace('%','')) / 100;
+					_b.px = _h*_b.f;
 				} else {
 					_px();
 				}

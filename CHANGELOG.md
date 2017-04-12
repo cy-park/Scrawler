@@ -6,12 +6,18 @@ CHANGELOG
 
 #### breaking changes:
 - replaced `Scrawler.Position.dc` with `Scrawler.Position.f`, meaning unit interval (fraction/float). same usage, only name changed.
-
 - removed `Scrawler.Position.pc`. No percentage value provided any more.
+- removed `pause` parameter from `Scrawler.watch()`. if pausing is required, it should be done by not executing `Scrawler.watch()`. 
 
 #### updates:
 - updated examples for breaking changes above
 - changed name in License
+- added compile process
+- added es6
+- enhanced code legibility
+
+#### notes:
+- won't add `sortLogics` parameter for Scrawler instance. `Scrawler.sort()` will exist, but users need to execute `Scrawler.sort()` to sort Logics.
 
 ## 0.2.1 (2017-03-06, beta release)
 

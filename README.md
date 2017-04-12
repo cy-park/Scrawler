@@ -76,8 +76,7 @@ To begin, initialization of Scrawler is required.
 	Parameter    | Type                | Default      | Description
 	------------ | ------------------- | ------------ | ------------
 	`baseline`   | *integer or string* | 'center'     | Scrawler's baseline position. All units will reference this baseline. If an integer value is used, it means pixel distance from the top of the viewport. For percentage values as strings (i.e. `'50%'`), it means relative position from viewport. Alternatively, `'top'`, `'center'`, `'bottom'` can be also used instead of `'0%'`, `'50%'`, `'100%'` respectively.
-	`idling`     | *integer*           | 0            | Number of rounds that additional `window.requestAnimationFrame()` is called after scroll stops. If this value is -1, it will be always running regardless of scroll. Usually, there is no need to render additional frames after scroll stops. 
-	`sortLogics` | boolean             | false        | **NOT IMPLEMENTED YET AS OF v0.2.1**
+	`idling`     | *integer*           | 0            | Number of rounds that additional `window.requestAnimationFrame()` is called after scroll stops. If this value is -1, it will be always running regardless of scroll. Usually, there is no need to render additional frames after scroll stops.
 
 **Example 1:**
 

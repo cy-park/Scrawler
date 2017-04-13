@@ -33,7 +33,7 @@ const Logic = function(args, callback, callbackArgs){
 		});
 	}
 
-	self._range_unit;
+	self._range_unit_;
 
 	if (self.range) {
 		if (typeof self.range[0] === 'string') {
@@ -41,12 +41,12 @@ const Logic = function(args, callback, callbackArgs){
 				// percent
 				self.range[0] = parseFloat(self.range[0].replace('%','')) / 100;
 				self.range[1] = parseFloat(self.range[1].replace('%','')) / 100;
-				self._range_unit = 'f';
+				self._range_unit_ = 'f';
 			} else {
-				self._range_unit = 'px';
+				self._range_unit_ = 'px';
 			}
 		} else {
-			self._range_unit = 'px';
+			self._range_unit_ = 'px';
 		}
 	}
 };

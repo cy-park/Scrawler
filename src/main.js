@@ -1,24 +1,33 @@
 /*! Scrawler.js v0.3.0 | (c) 2016-2017 Chan Young Park | MIT License */
 
-import Common from './Common';
-import Logic from './Logic';
+// import Common from './Common';
+// import Logic from './Logic';
 
-;(function (global, factory) {
+// import test from '../dist/Scrawler.min';
+
+;((global, factory)=>{
 	'use strict';
 	if(typeof define === 'function' && define.amd) {
 		// AMD
 		define(Scrawler);
 	} else if(typeof module === 'object' && module.exports) {
 		// CommonJS
-		module.exports = (global.Scrawler = factory());
+		// module.exports = (global.Scrawler = factory());
+		module.exports = factory();
 	} else {
 		// Browser global
 		global.Scrawler = factory();
 	}
-}(typeof window !== 'undefined' ? window : this, function() {
+})(typeof window !== 'undefined' ? window : this, ()=>{
 	'use strict';
 
-	let root;
+	var Common = require('./Common');
+	var Logic  = require( './Logic');
+	var test  = require( '../dist/Scrawler.min');
+
+	let root; 
+
+	var a = new test(); console.log(a)
 
 	/**
 	 * Constructor Scrawler(args)
@@ -48,10 +57,10 @@ import Logic from './Logic';
 		root.fps = args.fps || 0;
 
 		// Variable to store original baseline value from args
-		root._original_baseline = args.baseline || 'center';
+		root._original_baseline_ = args.baseline || 'center';
 
 		// Baseline value converted to Scrawler.Position() === {px:N, f:N}
-		root.baseline = Common.calcBaseline(root._original_baseline);
+		root.baseline = Common.calcBaseline(root._original_baseline_);
 
 		// Number of idle Engine rounds
 		root.idling = parseInt(args.idling)||0;
@@ -59,21 +68,21 @@ import Logic from './Logic';
 		/** Under the hood */
 
 		// Current direction of scroll
-		root._dir = '';
+		root._dir_ = '';
 
 		// Logics array. Scrawler.add() will push Logics in this array.
-		root._logics = [];
+		root._logics_ = [];
 
 		// rAF holder variable
-		root._raf = null;
+		root._raf_ = null;
 
 		// Previous scroll position by window.pageYOffset. Updates with every scroll.
-		root._prev_px_position = 0;
+		root._prev_px_position_ = 0;
 
 		// Idle engine round counter
-		root._idle_rounds = 0;
+		root._idle_rounds_ = 0;
 
-		root._scroll_event_initialized = false;
+		root._scroll_event_initialized_ = false;
 
 		window.addEventListener('resize', root.refresh);
 	};
@@ -116,8 +125,8 @@ import Logic from './Logic';
 	 * @return {Scrawler} Scrawler object
 	 */
 	Scrawler.prototype.add = function(args, callback, callbackArgs){
-		args.id = args.id || 'lid_'+root._logics.length;
-		root._logics.push(new Logic(args, callback, callbackArgs));
+		args.id = args.id || 'lid_'+root._logics_.length;
+		root._logics_.push(new Logic(args, callback, callbackArgs));
 		return root;
 	};
 
@@ -132,9 +141,9 @@ import Logic from './Logic';
 	 * @return {Scrawler} Scrawler object
 	 */
 	Scrawler.prototype.remove = function(lid){
-		for (var i = 0; i < root._logics.length; i++) {
-			if (root._logics[i].id === lid) {
-				root._logics.splice(i, 1);
+		for (var i = 0; i < root._logics_.length; i++) {
+			if (root._logics_[i].id === lid) {
+				root._logics_.splice(i, 1);
 				return root;
 			}
 		}
@@ -149,7 +158,7 @@ import Logic from './Logic';
 	 * @return {Scrawler} Scrawler object
 	 */
 	Scrawler.prototype.sort = function(){
-		root._logics.sort(function(a, b){
+		root._logics_.sort(function(a, b){
 			return a.order - b.order;
 		});
 		return root;
@@ -164,11 +173,11 @@ import Logic from './Logic';
 	 * @return {Scrawler} Scrawler object
 	 */
 	Scrawler.prototype.run = function(){
-		if (!root._scroll_event_initialized) {
-			root._scroll_event_initialized = true;
+		if (!root._scroll_event_initialized_) {
+			root._scroll_event_initialized_ = true;
 			window.addEventListener('scroll', root.run);
 		}
-		root._raf = window.requestAnimationFrame(engine);
+		root._raf_ = window.requestAnimationFrame(engine);
 		return root;
 	};
 
@@ -182,8 +191,8 @@ import Logic from './Logic';
 	 * @return {Scrawler} Scrawler object
 	 */
 	Scrawler.prototype.pause = function(){
-		window.cancelAnimationFrame(root._raf);
-		root._raf = null;
+		window.cancelAnimationFrame(root._raf_);
+		root._raf_ = null;
 		return root;
 	};
 
@@ -197,7 +206,7 @@ import Logic from './Logic';
 	Scrawler.prototype.watch = function(){
 		updateScrawlerDirection();
 		updateUnitPositions();
-		root._prev_px_position = window.pageYOffset;
+		root._prev_px_position_ = window.pageYOffset;
 		return root;
 	};
 
@@ -212,10 +221,10 @@ import Logic from './Logic';
 
 		updateScrawlerDirection(true);
 
-		root.baseline = Common.calcBaseline(root._original_baseline);
+		root.baseline = Common.calcBaseline(root._original_baseline_);
 
-		for (var i = 0; i < root._logics.length; i++) {
-			var _l  = root._logics[i];
+		for (var i = 0; i < root._logics_.length; i++) {
+			var _l  = root._logics_[i];
 			for (var j = 0; j < _l.units.length; j++) {
 				var _u = _l.units[j];
 				_u.baseline = Common.calcBaseline(_l.baseline, _u.el);
@@ -223,7 +232,7 @@ import Logic from './Logic';
 		}
 
 		updateUnitPositions();
-		root._prev_px_position = window.pageYOffset;
+		root._prev_px_position_ = window.pageYOffset;
 
 		return root;
 	};
@@ -233,15 +242,15 @@ import Logic from './Logic';
 		updateScrawlerDirection();
 
 		if (root.idling < 0 ||
-			(root.idling === 0 && root._dir !== 'stay') ||
-			root._idle_rounds < root.idling) {
+			(root.idling === 0 && root._dir_ !== 'stay') ||
+			root._idle_rounds_ < root.idling) {
 	 
 			updateUnitPositions();
 
-			root._prev_px_position = window.pageYOffset;
-			root._raf = window.requestAnimationFrame(engine);
+			root._prev_px_position_ = window.pageYOffset;
+			root._raf_ = window.requestAnimationFrame(engine);
 
-		} else { if (root._raf) root.pause(); }
+		} else { if (root._raf_) root.pause(); }
 	}
 
 	/**
@@ -256,20 +265,20 @@ import Logic from './Logic';
 	 */
 	function updateScrawlerDirection(resizing){
 		if (resizing) {
-			root._dir = 'resizing';
+			root._dir_ = 'resizing';
 		} else {
-			if (root._prev_px_position === window.pageYOffset) {
-				if (root._dir === 'stay') {
-					if (root.idling >= 0) root._idle_rounds++;
-				} else if (root._dir === '') {
-					root._dir = 'initialized';
+			if (root._prev_px_position_ === window.pageYOffset) {
+				if (root._dir_ === 'stay') {
+					if (root.idling >= 0) root._idle_rounds_++;
+				} else if (root._dir_ === '') {
+					root._dir_ = 'initialized';
 				} else {
-					root._dir = 'stay';
+					root._dir_ = 'stay';
 				}
 			} else {
-				root._idle_rounds = 0;
-				if (root._prev_px_position < window.pageYOffset) root._dir = 'down';
-				else root._dir = 'up';
+				root._idle_rounds_ = 0;
+				if (root._prev_px_position_ < window.pageYOffset) root._dir_ = 'down';
+				else root._dir_ = 'up';
 			}
 		}
 	}
@@ -282,8 +291,8 @@ import Logic from './Logic';
 	 * @return void
 	 */
 	function updateUnitPositions(){
-		for (var i = 0; i < root._logics.length; i++) {
-			var _l  = root._logics[i];
+		for (var i = 0; i < root._logics_.length; i++) {
+			var _l  = root._logics_[i];
 			for (var j = 0; j < _l.units.length; j++) {
 				var _u = _l.units[j];
 				var _bcr = _u.el.getBoundingClientRect();
@@ -293,27 +302,27 @@ import Logic from './Logic';
 
 				if (_l.range) {
 
-					if (_l.range[0] <= _u.progress[_l._range_unit] && _u.progress[_l._range_unit] <= _l.range[1]) {
+					if (_l.range[0] <= _u.progress[_l._range_unit_] && _u.progress[_l._range_unit_] <= _l.range[1]) {
 						// In range
 
 						// TODO: Review & test required.
 						// Editing this part as it should change the flags in edge cases.
 						// Not completely removing legacy code as not yet tested.
-						// _u._top_edge_rendered = false;
-						// _u._bot_edge_rendered = false;
-						_u._top_edge_rendered = (_l.range[0] === _u.progress[_l._range_unit]) ? true : false;
-						_u._bot_edge_rendered = (_l.range[1] === _u.progress[_l._range_unit]) ? true : false;
+						// _u._top_edge_rendered_ = false;
+						// _u._bot_edge_rendered_ = false;
+						_u._top_edge_rendered_ = (_l.range[0] === _u.progress[_l._range_unit_]) ? true : false;
+						_u._bot_edge_rendered_ = (_l.range[1] === _u.progress[_l._range_unit_]) ? true : false;
 						_l.callback.apply(_u, _l.callbackArgs);
 
 					} else {
 						// Out of range
 
-						if (_u.progress[_l._range_unit] < _l.range[0]) {
+						if (_u.progress[_l._range_unit_] < _l.range[0]) {
 							// Unit locates lower than Scrawler Baseline.
 
-							_u._bot_edge_rendered = false;
+							_u._bot_edge_rendered_ = false;
 
-							if (_l._range_unit === 'px') {
+							if (_l._range_unit_ === 'px') {
 								_u.progress.px = _l.range[0];
 								_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 							} else { // === 'f'
@@ -321,17 +330,17 @@ import Logic from './Logic';
 								_u.progress.px = _bcr.height * _u.progress.f;
 							}
 
-							if (!_u._top_edge_rendered) {
-								_u._top_edge_rendered = true;
+							if (!_u._top_edge_rendered_) {
+								_u._top_edge_rendered_ = true;
 								_l.callback.apply(_u, _l.callbackArgs);
 							} else {}
 
 						} else {
 							// Unit locates higher than Scrawler Baseline.
 
-							_u._top_edge_rendered = false;
+							_u._top_edge_rendered_ = false;
 
-							if (_l._range_unit === 'px') {
+							if (_l._range_unit_ === 'px') {
 								_u.progress.px = _l.range[1];
 								_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 							} else { // === 'f'
@@ -339,8 +348,8 @@ import Logic from './Logic';
 								_u.progress.px = _bcr.height * _u.progress.f;
 							}
 
-							if (!_u._bot_edge_rendered) {
-								_u._bot_edge_rendered = true;
+							if (!_u._bot_edge_rendered_) {
+								_u._bot_edge_rendered_ = true;
 								_l.callback.apply(_u, _l.callbackArgs);
 							} else {}
 						}
@@ -354,5 +363,5 @@ import Logic from './Logic';
 	}
 
 	return Scrawler;
-}));
+});
 

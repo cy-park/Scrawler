@@ -7,7 +7,7 @@
     "server": "browser-sync start --server '.' --files 'dist/*.js, examples/*.html' --host 'isp.dev.nationalgeographic.com' --port 8080 --open 'external'",
     "watch": "mkdir -p dist && onchange 'src/*.js' -- babel-node scripts/build.js --draft",
     "dist": "mkdir -p dist && babel-node scripts/build.js",
-    "inst": "npm i babel-cli babel-preset-es2015 browser-sync concat js-beautify uglify-js --save-dev",
+    "inst": "npm i babel-cli babel-preset-es2015 browser-sync concat js-beautify onchange uglify-js --save-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

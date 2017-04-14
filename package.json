@@ -5,11 +5,9 @@
   "main": "dist/Scrawler.js",
   "scripts": {
     "server": "browser-sync start --server '.' --files 'dist/*.js, examples/*.html' --host 'isp.dev.nationalgeographic.com' --port 8080 --open 'external'",
-    "watch": "mkdir -p dist && watchify -v -t babelify src/main.js -o dist/Scrawler.js -d",
+    "watch": "mkdir -p dist && onchange 'src/*.js' -- babel-node scripts/build.js --draft",
     "dist": "mkdir -p dist && babel-node scripts/build.js",
-    "inst": "npm i browser-sync browserify babel-preset-es2015 babelify watchify uglify-js --save-dev",
-    "build:uncompressed": "mkdir -p .tmp && babel-node script/build.js",
-    "build:compressed": "mkdir -p dist && browserify -v -t babelify src/main.js -o dist/Scrawler.min.js && uglifyjs dist/Scrawler.min.js --mangle --mangle-props --mangle-regex='/_$/' -o dist/Scrawler.min.js",
+    "inst": "npm i babel-cli babel-preset-es2015 browser-sync concat js-beautify uglify-js --save-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,7 +18,7 @@
     "parallax",
     "scroll"
   ],
-  "author": "Chan Young Park <designbycy@gmail.com> (http://www.chanyoungpark.com)",
+  "author": "Chan Young Park",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cy-park/Scrawler/issues"
@@ -32,7 +30,12 @@
     "browser-sync": "^2.18.8",
     "concat": "^3.0.0",
     "js-beautify": "^1.6.12",
+    "onchange": "^3.2.1",
     "uglify-js": "^2.8.22"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "metadata": {
+    "class_name": "Scrawler",
+    "year_launched": "2016"
+  }
 }

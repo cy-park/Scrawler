@@ -1,7 +1,3 @@
-'use strict';
-
-import Position from './Position';
-
 const Common = {};
 
 Common.calcBaseline = function(baseline, el){
@@ -48,5 +44,3 @@ Common.calcBaseline = function(baseline, el){
 
 	return _b;
 };
-
-module.exports = Common;

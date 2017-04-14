@@ -6,9 +6,9 @@
   "scripts": {
     "server": "browser-sync start --server '.' --files 'dist/*.js, examples/*.html' --host 'isp.dev.nationalgeographic.com' --port 8080 --open 'external'",
     "watch": "mkdir -p dist && watchify -v -t babelify src/main.js -o dist/Scrawler.js -d",
-    "dist": "npm run build:uncompressed && npm run build:compressed",
+    "dist": "mkdir -p dist && babel-node scripts/build.js",
     "inst": "npm i browser-sync browserify babel-preset-es2015 babelify watchify uglify-js --save-dev",
-    "build:uncompressed": "mkdir -p dist && browserify -v -t babelify src/main.js -o dist/Scrawler.js",
+    "build:uncompressed": "mkdir -p .tmp && babel-node script/build.js",
     "build:compressed": "mkdir -p dist && browserify -v -t babelify src/main.js -o dist/Scrawler.min.js && uglifyjs dist/Scrawler.min.js --mangle --mangle-props --mangle-regex='/_$/' -o dist/Scrawler.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,13 +27,12 @@
   },
   "homepage": "https://github.com/cy-park/Scrawler#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
-    "babelify": "^7.3.0",
     "browser-sync": "^2.18.8",
-    "browserify": "^14.3.0",
-    "http-server": "^0.9.0",
-    "uglify-js": "^2.8.22",
-    "watchify": "^3.9.0"
+    "concat": "^3.0.0",
+    "js-beautify": "^1.6.12",
+    "uglify-js": "^2.8.22"
   },
   "dependencies": {}
 }

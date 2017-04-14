@@ -1,5 +1,3 @@
-'use strict';
-
 const Unit = function(args){
 	
 	var self = this;
@@ -80,5 +78,3 @@ Unit.prototype.map = function(mid, args, callback, callbackArgs){
 		}
 	}
 };
-
-module.exports = Unit;

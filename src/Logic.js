@@ -1,9 +1,3 @@
-'use strict';
-
-import Common from './Common';
-import Unit from './Unit';
-import Position from './Position';
-
 /**
  * Class Logic(args, callback, callbackArgs)
  * 
@@ -50,5 +44,3 @@ const Logic = function(args, callback, callbackArgs){
 		}
 	}
 };
-
-module.exports = Logic;

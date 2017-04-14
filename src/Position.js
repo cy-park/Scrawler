@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Class Position(args)
  *
@@ -15,5 +13,3 @@ const Position = function(args = {}){
 	this.f  = args.f  || undefined; // unit interval (fraction/float)
 	this.px = args.px || undefined; // pixel
 };
-
-module.exports = Position;

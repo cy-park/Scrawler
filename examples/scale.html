@@ -152,11 +152,11 @@
 
 			document.querySelector('.unit-baseline-info').innerHTML = '<li>'+ub_px+'</li><li>'+ub_f+'</li>';
 
-			this.map(0, {from:[250,350], to:[-200,200]}, function(val){
+			this.scale(0, {from:[250,350], to:[-200,200]}, function(val){
 				this.el.style.left = val+'px';
 			});
 
-			this.map(1, {from:[150,250], to:[0.5,1]}, function(val){
+			this.scale(1, {from:[150,250], to:[0.5,1]}, function(val){
 				this.el.style.opacity = val;
 			});
 

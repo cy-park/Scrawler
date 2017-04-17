@@ -2,7 +2,12 @@ CHANGELOG
 =========
 
 
-## 0.3.1 (pre-release)
+## 0.4.1 (pre-release)
+
+## 0.4.0 (2017-04-17, beta release)
+
+#### breaking changes:
+- renamed `Unit.map()` to `Unit.scale()`.
 
 ## 0.3.0 (2017-04-17, beta release)
 

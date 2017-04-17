@@ -7,7 +7,7 @@ function Unit(args){
 	self.progress = args.progress;
 	self._top_edge_rendered_ = false;
 	self._bot_edge_rendered_ = false;
-	self.maps = args.maps || {};
+	self.scales = args.scales || {};
 };
 
 Unit.prototype.f = function(){
@@ -18,19 +18,19 @@ Unit.prototype.px = function(){
 	return this.progress.px;
 };
 
-Unit.prototype.map = function(mid, args, callback, callbackArgs = []){
+Unit.prototype.scale = function(mid, args, callback, callbackArgs = []){
 
 	const self = this;
 
 	mid = mid.toString();
 	args.to = args.to || [0,1];
-	self.maps[mid] = self.maps[mid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
+	self.scales[mid] = self.scales[mid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
 
 	let f0 = args.from[0],
 		f1 = args.from[1],
 		t0 = args.to[0],
 		t1 = args.to[1],
-		_m = self.maps[mid],
+		_m = self.scales[mid],
 		range_unit,
 		val;
 	

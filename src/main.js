@@ -155,7 +155,7 @@ Scrawler.prototype.run = function(){
  * Public Function Scrawler.pause()
  *
  * Pause Scrawler.
- * Usually useful only when `idling` setting is `-1` or bign enough.
+ * Usually useful only when `idling` setting is `-1` or big enough.
  * Scrawler automatically pauses after reaching the assigned idling number.
  *
  * @return {Scrawler} Scrawler object
@@ -169,7 +169,7 @@ Scrawler.prototype.pause = function(){
 /**
  * Public Function Scrawler.watch()
  *
- * Pause Scrawler.
+ * Initialize and run Scrawler in an existing rAF
  *
  * @return {Scrawler} Scrawler object
  */

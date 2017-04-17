@@ -1,6 +1,6 @@
-const Unit = function(args){
+function Unit(args){
 	
-	var self = this;
+	const self = this;
 
 	self.el = args.el;
 	self.baseline = args.baseline;
@@ -10,19 +10,27 @@ const Unit = function(args){
 	self.maps = args.maps || {};
 };
 
-Unit.prototype.map = function(mid, args, callback, callbackArgs){
+Unit.prototype.f = function(){
+	return this.progress.f;
+};
 
-	var self = this;
+Unit.prototype.px = function(){
+	return this.progress.px;
+};
+
+Unit.prototype.map = function(mid, args, callback, callbackArgs = []){
+
+	const self = this;
 
 	mid = mid.toString();
 	args.to = args.to || [0,1];
-	callbackArgs = callbackArgs || [];
 	self.maps[mid] = self.maps[mid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
 
-	var f0 = args.from[0],
+	let f0 = args.from[0],
 		f1 = args.from[1],
 		t0 = args.to[0],
 		t1 = args.to[1],
+		_m = self.maps[mid],
 		range_unit,
 		val;
 	
@@ -39,8 +47,7 @@ Unit.prototype.map = function(mid, args, callback, callbackArgs){
 		range_unit = 'px'
 	}
 
-	var prg = self.progress[range_unit];
-	var _m = self.maps[mid];
+	let prg = self.progress[range_unit];
 
 	if (f0 <= prg && prg <= f1) {
 

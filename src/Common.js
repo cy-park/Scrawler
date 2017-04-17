@@ -1,9 +1,9 @@
 const Common = {};
 
-Common.calcBaseline = function(baseline, el){
+Common.calcBaseline = (baseline, el)=>{
 
-	var _b = new Position();
-	var _h = el ? el.getBoundingClientRect().height : window.innerHeight;
+	const _b = new Position();
+	const _h = el ? el.getBoundingClientRect().height : window.innerHeight;
 
 	switch (baseline) {
 
@@ -23,7 +23,7 @@ Common.calcBaseline = function(baseline, el){
 			break;
 
 		default:
-			var _px = function(){
+			const _px = function(){
 				// px
 				_b.px = parseFloat(baseline);
 				_b.f  = baseline/_h;

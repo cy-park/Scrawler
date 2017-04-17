@@ -142,8 +142,8 @@
 			 *       for instance, if the unit's height is 100px and unit baseline stays 
 			 *       50px below of scrawler baseline, percentage progress (this.progress.f) is -0.5.
 			 */
-			var px_info = 'this.progress.px: ' + this.progress.px + 'px / 500px (unit height)',
-				f_info = 'this.progress.f: ' + this.progress.f + ' / 1';
+			var px_info = 'this.px() === this.progress.px: ' + this.px() + 'px / 500px (unit height)',
+				f_info = 'this.f() === this.progress.f: ' + this.f() + ' / 1';
 
 			document.getElementsByClassName('unit-info')[0].innerHTML = px_info+'<br>'+f_info;
 

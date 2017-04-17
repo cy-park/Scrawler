@@ -2,7 +2,9 @@ CHANGELOG
 =========
 
 
-## 0.3.0 (pre-release)
+## 0.3.1 (pre-release)
+
+## 0.3.0 (2017-04-17, beta release)
 
 #### breaking changes:
 - replaced `Scrawler.Position.dc` with `Scrawler.Position.f`, meaning unit interval (fraction/float). same usage, only name changed.

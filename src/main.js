@@ -84,7 +84,6 @@ function Scrawler(args) {
  * @param {string} [args.id] (default: random)
  *		  Logic ID. Required if this Logic is expected to be removed later.
  * @param {int} args.order (default: 0)
- *		  // TODO: Not implemented yet. Not sure when to run sort().
  *		  Running order of Logic
  *		  Bigger order number will run later.
  * @param {function} callback
@@ -112,7 +111,7 @@ Scrawler.prototype.add = function(args, callback, callbackArgs){
  * @return {Scrawler} Scrawler object
  */
 Scrawler.prototype.remove = function(lid){
-	for (var i = 0; i < root._logics_.length; i++) {
+	for (let i = 0; i < root._logics_.length; i++) {
 		if (root._logics_[i].id === lid) {
 			root._logics_.splice(i, 1);
 			return root;
@@ -129,7 +128,7 @@ Scrawler.prototype.remove = function(lid){
  * @return {Scrawler} Scrawler object
  */
 Scrawler.prototype.sort = function(){
-	root._logics_.sort(function(a, b){
+	root._logics_.sort((a, b)=>{
 		return a.order - b.order;
 	});
 	return root;
@@ -194,10 +193,10 @@ Scrawler.prototype.refresh = function(e){
 
 	root.baseline = Common.calcBaseline(root._original_baseline_);
 
-	for (var i = 0; i < root._logics_.length; i++) {
-		var _l  = root._logics_[i];
-		for (var j = 0; j < _l.units.length; j++) {
-			var _u = _l.units[j];
+	for (let i = 0; i < root._logics_.length; i++) {
+		const _l  = root._logics_[i];
+		for (let j = 0; j < _l.units.length; j++) {
+			const _u = _l.units[j];
 			_u.baseline = Common.calcBaseline(_l.baseline, _u.el);
 		}
 	}
@@ -208,7 +207,7 @@ Scrawler.prototype.refresh = function(e){
 	return root;
 };
 
-function engine() {
+function engine(){
 
 	updateScrawlerDirection();
 
@@ -262,11 +261,11 @@ function updateScrawlerDirection(resizing){
  * @return void
  */
 function updateUnitPositions(){
-	for (var i = 0; i < root._logics_.length; i++) {
-		var _l  = root._logics_[i];
-		for (var j = 0; j < _l.units.length; j++) {
-			var _u = _l.units[j];
-			var _bcr = _u.el.getBoundingClientRect();
+	for (let i = 0; i < root._logics_.length; i++) {
+		const _l  = root._logics_[i];
+		for (let j = 0; j < _l.units.length; j++) {
+			const _u = _l.units[j];
+			const _bcr = _u.el.getBoundingClientRect();
 			// Update progress of each unit in a logic.
 			_u.progress.px = root.baseline.px - (_bcr.top+_u.baseline.px);
 			_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
@@ -276,7 +275,7 @@ function updateUnitPositions(){
 				if (_l.range[0] <= _u.progress[_l._range_unit_] && _u.progress[_l._range_unit_] <= _l.range[1]) {
 					// In range
 
-					// TODO: Review & test required.
+					// NOTE: Review & test required.
 					// Editing this part as it should change the flags in edge cases.
 					// Not completely removing legacy code as not yet tested.
 					// _u._top_edge_rendered_ = false;

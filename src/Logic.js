@@ -6,17 +6,17 @@
  * @param {function} callback
  * @param {array} callbackArgs
  */
-const Logic = function(args, callback, callbackArgs){
+function Logic(args, callback, callbackArgs = []){
 
-	var self = this;
+	const self = this;
 
 	self.id = args.id;
 	self.el = args.el;
 	self.order = args.order || 0;
-	self.callback = callback;
-	self.callbackArgs = callbackArgs || [];
 	self.range = args.range || null; // Array(2) with From and To values. 
 	self.baseline = args.baseline||0;
+	self.callback = callback;
+	self.callbackArgs = callbackArgs;
 	self.nodelist = document.querySelectorAll(args.el);
 	self.units = [];
 	for (var i = 0; i < self.nodelist.length; i++) {

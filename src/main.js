@@ -1,7 +1,5 @@
 let root;
 
-// TODO:combined all classes under `Scrawler`.
-
 /**
  * Constructor Scrawler(args)
  * 

@@ -1,4 +1,4 @@
-# Scrawler v1.0.0 (beta)
+# Scrawler v1.0.0
 
 ### A simple javascript vertical parallax library.
 

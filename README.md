@@ -612,7 +612,7 @@ Position value in unit interval (decimal).
 
 ### .px
 
-Position value in unit interval (decimal).
+Position value in unit interval (integer).
 
 <br>
 

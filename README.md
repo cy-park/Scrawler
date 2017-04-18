@@ -622,6 +622,7 @@ Position value in unit interval (integer).
 - [12 Perfect Moments in Ireland](http://www.nationalgeographic.com/travel/destinations/europe/ireland/12-perfect-moments-places-destinations/)
 - [Around the World in 12 Books](http://www.nationalgeographic.com/travel/features/12-books-read-around-world/)
 - [Around the World in 24 Hours](http://www.nationalgeographic.com/travel/features/around-the-world-in-24-hours/)
+- [Artemis Ward](http://artemisward.com/)
 
 <br>
 

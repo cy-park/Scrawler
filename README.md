@@ -4,17 +4,21 @@
 
 Scrawler is a simple library to help react users’ scroll events. As it is for people who want a super-simple, barebone library for scroll events, it only provides position data for baselines and DOM elements. All the fancy animations, parallax effect, and/or any other visual effects should be coded manually. However, if you don’t like any magic and do want to keep full control of your code, this is the right library for you.
 
+<br>
+
 ## Download
 
  * [minified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.min.js)
- * [unminified](https://raw.githubusercontent.com/cy-park/Scrawler/master/src/Scrawler.js)
+ * [unminified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.js)
+
+<br>
 
 ## Installation
 
 #### Option 1: HTML
 
 ```html
-<script src="Scrawler.js"></script>
+<script src="Scrawler.min.js"></script>
 ```
 
 #### Option 2: Node.js & npm
@@ -28,8 +32,16 @@ $ npm i scrawler --save
 and import in JS:
 
 ```js
-var Scrawler = require('scrawler');
+var Scrawler = require('scrawler'); // CommonJS
 ```
+
+or alternatively:
+
+```js
+import Scrawler from 'scrawler'; // ES6
+```
+
+<br>
 
 ## Quick Start
 
@@ -55,28 +67,30 @@ After downloading Scrawler.js, use below code to quick-start:
 </html>
 ```
 
+<br>
+
 ## APIs
 
 ### Scrawler()
 
-Scrawler instance. Initialization of Scrawler is required to start with Scrawler.
+Scrawler constructor. Initialization of Scrawler is required to begin.
 
 **Syntax:**
 
 <pre>
-<b>new Scrawler( [settings] );</b>
+<b>new Scrawler( [settings] )</b>
 </pre>
 
 **Arguments:**
 
-- `settings` *{object}* (optional) Scrawler settings for initialization.
+- `settings` *{object}* (optional) `Scrawler` settings for initialization.
 
 	Parameters for `settings`:
 
 	| Parameter    | Type                | Default      | Description |
 	| ------------ | ------------------- | ------------ | ----------- |
-	| `baseline`   | *integer or string* | 'center'     | Scrawler's baseline position. All units will reference this baseline. If an integer value is used, it means pixel distance from the top of the viewport. For percentage values as strings (i.e. `'50%'`), it means relative position from viewport. Alternatively, `'top'`, `'center'`, `'bottom'` can be also used instead of `'0%'`, `'50%'`, `'100%'` respectively. |
-	| `idling`     | *integer*           | 0            | Number of rounds that additional `window.requestAnimationFrame()` is called after scroll stops. If this value is -1, it will be always running regardless of scroll. Usually, there is no need to render additional frames after scroll stops. |
+	| `baseline`   | *integer or string* | 'center'     | `Scrawler`'s baseline position. All `Units` will reference this `baseline`. If an integer value is used, it means pixel distance from the top of the viewport. Percentage values (i.e. `'50%'`) or f values (i.e. `'0.5f'`) in strings mean relative position from viewport. Alternatively, `'top'`/`'center'`/`'bottom'` can be also used instead of `'0%'`/`'50%'`/`'100%'` or `'0f'`/`'0.5f'`/`'1f'`,  respectively. |
+	| `idling`     | *integer*           | 0            | Number of additional rounds that `window.requestAnimationFrame()` is called after scroll stops. If this value is `-1`, it will be always running regardless of scroll. Usually, there is no need to render additional frames after scroll stops. |
 
 **Example 1:**
 
@@ -93,10 +107,16 @@ var scrawler = new Scrawler({ baseline: 500 });
 **Example 3:**
 
 ```JS
-var scrawler = new Scrawler({ baseline: '50%' });
+var scrawler = new Scrawler({ baseline: '0.5f' });
 ```
 
 **Example 4:**
+
+```JS
+var scrawler = new Scrawler({ baseline: '50%' });
+```
+
+**Example 5:**
 
 ```JS
 var scrawler = new Scrawler({ baseline: 'center' });
@@ -104,11 +124,9 @@ var scrawler = new Scrawler({ baseline: 'center' });
 
 <br>
 
-***
-
 ### .add()
 
-Add a Logic to Scrawler.
+Add a `Logic` to `Scrawler`. 
 
 **Syntax:**
 
@@ -124,16 +142,16 @@ Add a Logic to Scrawler.
 
 	| Parameter    | Type                | Default        | Description |
 	| ------------ | ------------------- | -------------- | ----------- |
-	| `el`         | *string*            | -              | **[REQUIRED]** Query selector string for target DOM elements. The logic will affect the elements that are selected by this query string. |
-	| `range`      | *Array(2)*          | -              | Range where the Logic will be executed. The first and the second array value stand for the starting position and the ending position of the Logic respectively. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%`, which means percentage value. <br>If `range` is not assigned, the Logic will be executed at any range, from `-INFINITY` to `+INFINITY`. To run the Logic only when the DOM meets the viewport baseline, assign `['0%', '100%']` for this rawnge value. |
-	| `id`         | *string*            | (random value) | (optional) ID for the logic. Required to remove this logic later with Scrawler.remove() method. |
-	| `baseline`   | *integer or string* | 0              | The DOM element's baseline position. Scrawler measures the distance between the viewport baseline and this baseline. <br>If an integer value is used, it means pixel distance from the top of the viewport. For percentage values as strings (i.e. `'50%'`), it means relative position from viewport. Alternatively, `'top'`, `'center'`, `'bottom'` can be also used instead of `'0%'`, `'50%'`, `'100%'` respectively. |
-	| `order`      | *integer*           | 0              | Running order of Logic. Bigger order number will run later. |
+	| `el`         | *string*            | -              | **[REQUIRED]** Query selector string for target DOM elements. |
+	| `range`      | *Array(2)*          | -              | Range where the `Logic` will be executed. The first and the second array value stand for the starting position and the ending position of the `Logic` respectively. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `100f` (float/decimal values). <br>If `range` is not assigned, the `Logic` will be executed at any range, from `-INFINITY` to `+INFINITY`. To run the `Logic` only when the DOM meets the viewport baseline, assign `['0%', '100%']` or `['0f', '1f']` for this range value. |
+	| `id`         | *string*            | (random value) | (optional) ID for the `Logic`. Required to remove this `Logic` later with `Scrawler.remove()` method. |
+	| `baseline`   | *integer or string* | 0              | The DOM element's baseline position. `Scrawler` measures the distance between the viewport baseline and this baseline. <br>If an integer value is used, it means pixel distance from the top of the viewport. Percentage (i.e. `'50%'`) or f values (i.e. `'0.5f'`) in strings mean relative position from viewport. Alternatively, `'top'`/`'center'`/`'bottom'` can be also used instead of `'0%'`/`'50%'`/`'100%'` or `'0f'`/`'0.5f'`/`'1f'`,  respectively. |
+	| `order`      | *integer*           | 0              | Running order of `Logic` objects. Bigger order number will run later. |
 
-- `callback` *{function}* This function is called on each DOM element selected by args.el when scroll events happen. In this callback function, `this` is a `Scrawler.Unit()` element based on each DOM element.
+- `callback` *{function}* This function is called on each DOM element selected by `args.el` when scroll events happen. In this callback function, `this` is a current `Unit` object that Scrawler is rendering on.
 - `callback_arguments ` *{Array}* (optional) parameters for callback function.
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example 1:**
 
@@ -142,10 +160,22 @@ scrawler.add({
   el: '.scrawler-unit'
 }, function(){
   console.log(this.progress.px); // prints current progress in pixel value.
-})
+});
 ```
 
 **Example 2:**
+
+```JS
+scrawler.add({
+  el: '.scrawler-unit',
+  range: ['0f', '1f'],
+  baseline: 'center'
+}, function(arg1, arg2){
+  console.log(arg1 + this.progress.px + arg2); // prints "progress: [...]px"
+}, ['progress: ', 'px']);
+```
+
+**Example 3:**
 
 ```JS
 scrawler.add({
@@ -154,16 +184,14 @@ scrawler.add({
   baseline: 'center'
 }, function(arg1, arg2){
   console.log(arg1 + this.progress.px + arg2); // prints "progress: [...]px"
-}, ['progress: ', 'px'])
+}, ['progress: ', 'px']);
 ```
 
 <br>
 
-***
-
 ### .remove()
 
-Remove a Logic from Scrawler.
+Remove a `Logic` from `Scrawler`.
 
 **Syntax:**
 
@@ -173,9 +201,9 @@ Remove a Logic from Scrawler.
 
 **Arguments:**
 
-- `logic_id` *{string}* ID for the target Logic to remove. Only Logics with IDs can be removed. An ID can be assigned when a Logic is created.
+- `logic_id` *{string}* ID for the target `Logic` to remove. Only `Logics` with IDs can be removed. An ID can be assigned when a `Logic` is created.
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example:**
 
@@ -192,11 +220,9 @@ scrawler.remove('myLogicID');
 
 <br>
 
----
-
 ### .sort()
 
-Sort Scrawler Logics based on `order` value. Can be set up when creating each Logic with `.add()`. The higher number a Logic has, the later it runs.
+Sort `Logics` based on `order` value. `order` values can be set up when creating each `Logic` with `.add()`. The bigger `order` value a `Logic` has, the later it runs.
 
 **Syntax:**
 
@@ -204,7 +230,7 @@ Sort Scrawler Logics based on `order` value. Can be set up when creating each Lo
 <b>.sort()</b>
 </pre>
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example:**
 
@@ -230,13 +256,11 @@ scrawler
 
 <br>
 
-***
-
 ### .run()
 
-Start/resume Scrawler to run added logics.
+Start/resume `Scrawler` to run added logics.
 
-This function creates a `requestAnimationFrame` loop and call assigned Logics internally. To run Scrawler in an already existing rAF, use `.watch()` method instead.
+This function creates a `requestAnimationFrame` loop and call assigned `Logics` internally. To run `Scrawler` in an already existing rAF, use `.watch()` method instead.
 
 **Syntax:**
 
@@ -244,7 +268,7 @@ This function creates a `requestAnimationFrame` loop and call assigned Logics in
 <b>.run()</b>
 </pre>
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example 1:**
 
@@ -267,13 +291,11 @@ scrawler.run();
 
 <br>
 
-***
-
 ### .pause()
 
-Pause Scrawler. Only works to `.run()`, not `watch()`.
+Pause `Scrawler`. Only works to `.run()`, not `watch()`.
 
-Usually useful only when `idling` setting is `-1` or big enough. Scrawler automatically pauses after reaching the assigned idling number. Scrawler will automatically resume when the user starts scrolling again. To stop Scrawler permanently after calling `.run()`, it is required to remove Scrawler instance (i.e. `scrawler = null;`).
+Usually useful only when `idling` setting is `-1` or big enough. `Scrawler` automatically pauses after reaching the assigned `idling` number. Scrawler will automatically resume when the user starts scrolling again. To stop `Scrawler` permanently after calling `.run()`, it is required to remove `Scrawler` instance (i.e. `scrawler = null;`).
 
 **Syntax:**
 
@@ -281,7 +303,7 @@ Usually useful only when `idling` setting is `-1` or big enough. Scrawler automa
 <b>.pause()</b>
 </pre>
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example:**
 
@@ -297,11 +319,9 @@ scrawler.pause();
 
 <br>
 
-***
-
 ### .watch()
 
-Initialize and run Scrawler in an existing `requestAnimationFrame`. Works as same as `run()`, but calling `watch()` in an existing rAF will run Scrawler without creating another rAF.
+Initialize and run `Scrawler` in an existing `requestAnimationFrame`. Works as same as `run()`, but calling `watch()` in an existing rAF will run `Scrawler` without creating another rAF.
 
 This method is for advanced use cases. `run()` method would work for most circumstances.
 
@@ -311,7 +331,7 @@ This method is for advanced use cases. `run()` method would work for most circum
 <b>.watch()</b>
 </pre>
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example:**
 
@@ -330,11 +350,9 @@ function raf_worker() {
 
 <br>
 
-***
-
 ### .refresh()
 
-Refresh all baseline and position data. Automatically called when resizing browsers.
+Refresh all `baseline` and `position` values. Automatically called when resizing browsers.
 
 **Syntax:**
 
@@ -342,7 +360,7 @@ Refresh all baseline and position data. Automatically called when resizing brows
 <b>.refresh()</b>
 </pre>
 
-**Return:** *{Scrawler}* Scrawler object
+**Return:** *{Scrawler}* `Scrawler` object
 
 **Example:**
 
@@ -353,39 +371,215 @@ scrawler.refresh();
 
 <br>
 
---
+***
 
 ### Scrawler.Logic()
 
-Scrawler Logic
+A `Logic` contains information about how targeted DOM elements interact in accordance with the browser’s scroll positions. A `Scrawler` instance usually carries multiple `Logics` and call each `Logic` every time when a scroll event occurs.
 
-<br>
+**Syntax:**
 
---
+<pre>
+<b>new Scrawler.Logic( args, callback, [callbackArgs] )</b>
+</pre>
 
-### Scrawler.Unit()
+*Note: `Logic` is usually created by `Scrawler.add()`. Creating `Logic` directly using `new Scrawler.Logic()` is a very rare use case which is not recommended.*
 
-Scrawler Unit
+**Arguments:**
+
+*Refer to `Scrawler.add()`.*
 
 <br>
 
 ***
 
-### .scale()
+### Scrawler.Unit()
 
-Linear interpolate a range of values to another. This can 
+`Unit` objects are automatically created by `Scrawler` while adding a `Logic` to `Scrawler`. Each `Unit` indicates actual DOM elements monitored by `Scrawler`. 
+
+`Unit` objects are accessible by calling `this` instance in `Scrawler.add()` methods’ `callback` functions.
 
 <br>
 
---
+### .el
+
+DOM `Element` of the `Unit` that `Scrawler` is currently handling
+
+**Example:**
+
+```JS
+scrawler
+.add({ el: '#scrawler-elm' }, function(){
+	console.log( this.el ); // document.getElementById('scrawler-elm')
+});
+```
+
+<br>
+
+### .progress
+
+Progress of the `Unit` in decimal value (unit interval, 0 to 1 range) and pixel value.
+
+**Example:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	console.log(
+		this.progress.f, // progress in decimal value
+		this.progress.px // progress in pixel value
+	);
+});
+```
+
+<br>
+
+### .f()
+
+Shorthand of `Scrawler.Unit.progress.f`.
+
+**Syntax:**
+
+<pre>
+<b>.f()</b>
+</pre>
+
+**Return:** *{float}* `Unit` progress value in decimal.
+
+**Example:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	console.log( this.f() );
+});
+```
+
+<br>
+
+### .px()
+
+Shorthand of `Scrawler.Unit.progress.px`.
+
+**Syntax:**
+
+<pre>
+<b>.px()</b>
+</pre>
+
+**Return:** *{integer}* `Unit` progress value in pixel.
+
+**Example:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	console.log( this.px() );
+});
+```
+
+<br>
+
+### .scale()
+
+Linear interpolate a range of values to another.
+
+**Syntax:**
+
+<pre>
+<b>.scale( scale_id, scale_values, callback, [callbackArgs] )</b>
+</pre>
+
+**Arguments:**
+
+- `scale_id ` *{string}* Unique ID for this `.scale()` call. Must assign an ID to use `.scale()`. Any unique string works.
+- `scale_values` *{object}* Scale range values to interpolate. 
+
+	Parameters for `scale_values `:
+
+	| Parameter    | Type                      | Default        | Description |
+	| ------------ | ---------- | -------------- | ----------- |
+	| `from`       | *Array(2)* | -              | **[REQUIRED]** Source range of interpolation. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `1f` (float/decimal values). |
+	| `to   `      | *Array(2)* | `[0, 1]`       | Target range of interpolation. Both array values should have integers. |
+
+- `callback` *{function(interpolated_value)}* This function is called  when current `Unit`’s `progress` is in source range (`scale_values.from`). The first argument of the `callback` is the interpolated value of current `Unit`’s `progress`.
+- `callback_arguments ` *{Array}* (optional) parameters for callback function.
+
+**Return:** *void*
+
+**Example 1:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	this.scale('myScale', {
+		from: [123, 456]
+	}, function(val){
+		console.log(val); // interpolated to [0, 1] scale
+	});
+});
+```
+
+**Example 2:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	this.scale('myScale', {
+		from: [123, 456],
+		to:   [7.89, 10]
+	}, function(val){
+		console.log(val); // interpolated value
+	});
+});
+```
+
+**Example 3:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	this.scale('myScale', {
+		from: ['0.12f', '0.34f'],
+		to:   [5, 6.78]
+	}, function(val){
+		console.log(val); // interpolated value
+	});
+});
+```
+
+**Example 4:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+	this.scale('myScale', {
+		from: ['12%', '34.5%'],
+		to:   [60, 78]
+	}, function(val){
+		console.log(val); // interpolated value
+	});
+});
+```
+
+<br>
+
+***
 
 ### Scrawler.Position()
 
-Scrawler Position
+`Position` object contains a pixel value and a unit interval (decimal) value. It is a standard format for any position values used in this library.
+
+### .f
+
+Position value in unit interval (decimal).
+
+### .px
+
+Position value in unit interval (decimal).
 
 <br>
 
---
 
 ## Browser Support
 

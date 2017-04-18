@@ -9,6 +9,11 @@ CHANGELOG
 #### breaking changes:
 - renamed `Unit.map()` to `Unit.scale()`.
 
+#### updates:
+- TODO: combined all classes under `Scrawler`.
+- TODO: updated to handle `f` values in options/settings.
+- completed README.md draft.
+
 ## 0.3.0 (2017-04-17, beta release)
 
 #### breaking changes:

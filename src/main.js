@@ -1,5 +1,8 @@
 let root;
 
+// TODO:combined all classes under `Scrawler`.
+// TODO:updated to handle `f` values in options/settings.
+
 /**
  * Constructor Scrawler(args)
  * 

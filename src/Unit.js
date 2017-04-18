@@ -18,19 +18,19 @@ Unit.prototype.px = function(){
 	return this.progress.px;
 };
 
-Unit.prototype.scale = function(mid, args, callback, callbackArgs = []){
+Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
 
 	const self = this;
 
-	mid = mid.toString();
+	sid = sid.toString();
 	args.to = args.to || [0,1];
-	self.scales[mid] = self.scales[mid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
+	self.scales[sid] = self.scales[sid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
 
 	let f0 = args.from[0],
 		f1 = args.from[1],
 		t0 = args.to[0],
 		t1 = args.to[1],
-		_m = self.scales[mid],
+		_m = self.scales[sid],
 		range_unit,
 		val;
 	

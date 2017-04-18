@@ -17,6 +17,9 @@
 
   var root = void 0;
 
+  // TODO:combined all classes under `Scrawler`.
+  // TODO:updated to handle `f` values in options/settings.
+
   /**
    * Constructor Scrawler(args)
    * 
@@ -172,7 +175,7 @@
    * Public Function Scrawler.pause()
    *
    * Pause Scrawler.
-   * Usually useful only when `idling` setting is `-1` or bign enough.
+   * Usually useful only when `idling` setting is `-1` or big enough.
    * Scrawler automatically pauses after reaching the assigned idling number.
    *
    * @return {Scrawler} Scrawler object
@@ -186,7 +189,7 @@
   /**
    * Public Function Scrawler.watch()
    *
-   * Pause Scrawler.
+   * Initialize and run Scrawler in an existing rAF
    *
    * @return {Scrawler} Scrawler object
    */
@@ -470,7 +473,7 @@
     self.progress = args.progress;
     self._top_edge_rendered_ = false;
     self._bot_edge_rendered_ = false;
-    self.maps = args.maps || {};
+    self.scales = args.scales || {};
   };
 
   Unit.prototype.f = function() {
@@ -481,15 +484,15 @@
     return this.progress.px;
   };
 
-  Unit.prototype.map = function(mid, args, callback) {
+  Unit.prototype.scale = function(sid, args, callback) {
     var callbackArgs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
 
     var self = this;
 
-    mid = mid.toString();
+    sid = sid.toString();
     args.to = args.to || [0, 1];
-    self.maps[mid] = self.maps[mid] || {
+    self.scales[sid] = self.scales[sid] || {
       _top_edge_rendered_: false,
       _bot_edge_rendered_: false
     };
@@ -498,7 +501,7 @@
       f1 = args.from[1],
       t0 = args.to[0],
       t1 = args.to[1],
-      _m = self.maps[mid],
+      _m = self.scales[sid],
       range_unit = void 0,
       val = void 0;
 

@@ -51,7 +51,7 @@ After downloading Scrawler.js, use below code to quick-start:
 <!DOCTYPE html>
 <html>
   <body style="height:200vh">
-  	<style>.unit-to-track {height:25vh;margin:20px;border:4px solid #000}</style>
+    <style>.unit-to-track {height:25vh;margin:20px;border:4px solid #000}</style>
     <div class="unit-to-track"></div>
     <div class="unit-to-track"></div>
     <div class="unit-to-track"></div>
@@ -245,8 +245,8 @@ Remove a `Logic` from `Scrawler`.
 
 ```JS
 scrawler.add({
-	id: 'myLogicID',
-	el: '.scrawler-unit'
+  id: 'myLogicID',
+  el: '.scrawler-unit'
 }, function(){...});
 
 ...
@@ -273,19 +273,19 @@ Sort `Logics` based on `order` value. `order` values can be set up when creating
 ```JS
 scrawler
 .add({
-	id: 'paintRed', 
-	el: '.scrawler-unit',
-	order: 1 
-	}, function(){
-		document.body.style.background = 'red';
-	})
+  id: 'paintRed', 
+  el: '.scrawler-unit',
+  order: 1 
+  }, function(){
+    document.body.style.background = 'red';
+  })
 .add({
-	id: 'paintBlue', 
-	el: '.scrawler-unit',
-	order: 0 
-	}, function(){
-		document.body.style.background = 'blue';
-	})
+  id: 'paintBlue', 
+  el: '.scrawler-unit',
+  order: 0 
+  }, function(){
+    document.body.style.background = 'blue';
+  })
 .sort() // by sorting Logics, `paintRed` will be called after `paintBlue`.
 .run(); // `paintBlue` will always be overwritten by `paintRed`.
 ```
@@ -379,8 +379,8 @@ scrawler.add({ el: '.scrawler-unit' }, function(){...});
 window.requestAnimationFrame(raf_worker);
 
 function raf_worker() {
-	scrawler.watch();
-	window.requestAnimationFrame(raf_worker);
+  scrawler.watch();
+  window.requestAnimationFrame(raf_worker);
 }
 ```
 
@@ -446,7 +446,7 @@ DOM `Element` of the `Unit` that `Scrawler` is currently handling
 ```JS
 scrawler
 .add({ el: '#scrawler-elm' }, function(){
-	console.log( this.el ); // document.getElementById('scrawler-elm')
+  console.log( this.el ); // document.getElementById('scrawler-elm')
 });
 ```
 
@@ -461,10 +461,10 @@ Progress of the `Unit` in decimal value (unit interval, 0 to 1 range) and pixel 
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	console.log(
-		this.progress.f, // progress in decimal value
-		this.progress.px // progress in pixel value
-	);
+  console.log(
+    this.progress.f, // progress in decimal value
+    this.progress.px // progress in pixel value
+  );
 });
 ```
 
@@ -487,7 +487,7 @@ Shorthand of `Scrawler.Unit.progress.f`.
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	console.log( this.f() );
+  console.log( this.f() );
 });
 ```
 
@@ -510,7 +510,7 @@ Shorthand of `Scrawler.Unit.progress.px`.
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	console.log( this.px() );
+  console.log( this.px() );
 });
 ```
 
@@ -548,11 +548,11 @@ Linear interpolate a range of values to another.
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	this.scale('myScale', {
-		from: [123, 456]
-	}, function(val){
-		console.log(val); // interpolated to [0, 1] scale
-	});
+  this.scale('myScale', {
+    from: [123, 456]
+  }, function(val){
+    console.log(val); // interpolated to [0, 1] scale
+  });
 });
 ```
 
@@ -561,12 +561,12 @@ scrawler
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	this.scale('myScale', {
-		from: [123, 456],
-		to:   [7.89, 10]
-	}, function(val){
-		console.log(val); // interpolated value
-	});
+  this.scale('myScale', {
+    from: [123, 456],
+    to:   [7.89, 10]
+  }, function(val){
+    console.log(val); // interpolated value
+  });
 });
 ```
 
@@ -575,12 +575,12 @@ scrawler
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	this.scale('myScale', {
-		from: ['0.12f', '0.34f'],
-		to:   [5, 6.78]
-	}, function(val){
-		console.log(val); // interpolated value
-	});
+  this.scale('myScale', {
+    from: ['0.12f', '0.34f'],
+    to:   [5, 6.78]
+  }, function(val){
+    console.log(val); // interpolated value
+  });
 });
 ```
 
@@ -589,12 +589,12 @@ scrawler
 ```JS
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
-	this.scale('myScale', {
-		from: ['12%', '34.5%'],
-		to:   [60, 78]
-	}, function(val){
-		console.log(val); // interpolated value
-	});
+  this.scale('myScale', {
+    from: ['12%', '34.5%'],
+    to:   [60, 78]
+  }, function(val){
+    console.log(val); // interpolated value
+  });
 });
 ```
 

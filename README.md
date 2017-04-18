@@ -1,15 +1,15 @@
-# Scrawler v1.0.0
+# Scrawler v1.1.0
 
 ### A javascript library for monitoring vertical scroll events.
 
-Scrawler is a simple library to help react users’ scroll events. As it is for people who want a super-simple, barebone library for scroll events, it only provides position data for baselines and DOM elements. All the fancy animations, parallax effect, and/or any other visual effects should be coded manually. However, if you don’t like any magic and do want to keep full control of your code, this is the right library for you.
+Scrawler is a simple library to help react users’ scroll events. As it is for people who want a super-simple, barebone library for scroll events, it only provides position data for baselines and DOM elements. All the fancy animations, parallax effect, and/or any other visual effects should be coded manually. However, if you don’t like any magic and do want to keep full control of your code, this is the right library for you. To see how Scrawler works in production, please refer to [this list](https://github.com/cy-park/Scrawler#live-links).
 
 <br>
 
 ## Download
 
- * [minified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.min.js)
- * [unminified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.js)
+- [minified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.min.js)
+- [unminified](https://raw.githubusercontent.com/cy-park/Scrawler/master/dist/Scrawler.js)
 
 <br>
 
@@ -616,6 +616,14 @@ Position value in unit interval (integer).
 
 <br>
 
+## Live Links
+
+- [Hiking the Grand Canyon: 800 Miles of Magic and Misery](http://www.nationalgeographic.com/adventure/2016/11/grand-canyon-national-parks-interactive-map/)
+- [12 Perfect Moments in Ireland](http://www.nationalgeographic.com/travel/destinations/europe/ireland/12-perfect-moments-places-destinations/)
+- [Around the World in 12 Books](http://www.nationalgeographic.com/travel/features/12-books-read-around-world/)
+- [Around the World in 24 Hours](http://www.nationalgeographic.com/travel/features/around-the-world-in-24-hours/)
+
+<br>
 
 ## Browser Support
 

@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.0.1 (pre-release)
+## 1.1.1 (pre-release)
+
+## 1.1.0 (2017-04-18)
+
+#### features:
+- supports multiple Scrawler objects
 
 ## 1.0.0 (2017-04-18)
 

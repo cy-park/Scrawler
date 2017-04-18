@@ -1,4 +1,4 @@
-/*! Scrawler.js v0.3.0 | (c) 2016-2017 Chan Young Park | MIT License */ 
+/*! Scrawler.js v1.1.0 | (c) 2016-2017 Chan Young Park | MIT License */ 
 (function(global, factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
@@ -15,13 +15,9 @@
 
   'use strict';
 
-  var root = void 0;
-
-  // TODO:combined all classes under `Scrawler`.
-
   /**
    * Constructor Scrawler(args)
-   * 
+   * 	
    * @param {object} [args] (default: {})
    * @param {int} [args.fps] (default: 0) Currently not implemented.
    *		  Frames per second.
@@ -37,44 +33,44 @@
    * 		  If this value is -1, Engine will be always running regardless of scroll.
    *		  Engine running === requestAnimationFrame()
    */
-  function Scrawler(args) {
+  function Scrawler() {
+    var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    root = this;
 
-    args = args || {};
+    var _this_ = this;
 
     // Frames per second
-    root.fps = args.fps || 0;
+    _this_.fps = args.fps || 0;
 
     // Variable to store original baseline value from args
-    root._original_baseline_ = args.baseline || 'center';
+    _this_._original_baseline_ = args.baseline || 'center';
 
     // Baseline value converted to Scrawler.Position() === {px:N, f:N}
-    root.baseline = Common.calcBaseline(root._original_baseline_);
+    _this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
     // Number of idle Engine rounds
-    root.idling = parseInt(args.idling) || 0;
+    _this_.idling = parseInt(args.idling) || 0;
 
     /** Under the hood */
 
     // Current direction of scroll
-    root._dir_ = '';
+    _this_._dir_ = '';
 
     // Logics array. Scrawler.add() will push Logics in this array.
-    root._logics_ = [];
+    _this_._logics_ = [];
 
     // rAF holder variable
-    root._raf_ = null;
+    _this_._raf_ = null;
 
     // Previous scroll position by window.pageYOffset. Updates with every scroll.
-    root._prev_px_position_ = 0;
+    _this_._prev_px_position_ = 0;
 
     // Idle engine round counter
-    root._idle_rounds_ = 0;
+    _this_._idle_rounds_ = 0;
 
-    root._scroll_event_initialized_ = false;
+    _this_._scroll_event_initialized_ = false;
 
-    window.addEventListener('resize', root.refresh);
+    window.addEventListener('resize', _this_.refresh);
   };
 
   /**
@@ -114,9 +110,10 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.add = function(args, callback, callbackArgs) {
-    args.id = args.id || 'lid_' + root._logics_.length;
-    root._logics_.push(new Scrawler.Logic(args, callback, callbackArgs));
-    return root;
+    var _this_ = this;
+    args.id = args.id || 'lid_' + _this_._logics_.length;
+    _this_._logics_.push(new Scrawler.Logic(args, callback, callbackArgs));
+    return _this_;
   };
 
   /**
@@ -130,13 +127,14 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.remove = function(lid) {
-    for (var i = 0; i < root._logics_.length; i++) {
-      if (root._logics_[i].id === lid) {
-        root._logics_.splice(i, 1);
-        return root;
+    var _this_ = this;
+    for (var i = 0; i < _this_._logics_.length; i++) {
+      if (_this_._logics_[i].id === lid) {
+        _this_._logics_.splice(i, 1);
+        return _this_;
       }
     }
-    return root;
+    return _this_;
   };
 
   /**
@@ -147,10 +145,11 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.sort = function() {
-    root._logics_.sort(function(a, b) {
+    var _this_ = this;
+    _this_._logics_.sort(function(a, b) {
       return a.order - b.order;
     });
-    return root;
+    return _this_;
   };
 
   /**
@@ -162,12 +161,13 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.run = function() {
-    if (!root._scroll_event_initialized_) {
-      root._scroll_event_initialized_ = true;
-      window.addEventListener('scroll', root.run);
+    var _this_ = this;
+    if (!_this_._scroll_event_initialized_) {
+      _this_._scroll_event_initialized_ = true;
+      window.addEventListener('scroll', _this_.run.bind(_this_));
     }
-    root._raf_ = window.requestAnimationFrame(engine);
-    return root;
+    _this_._raf_ = window.requestAnimationFrame(engine.bind(_this_));
+    return _this_;
   };
 
   /**
@@ -180,9 +180,10 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.pause = function() {
-    window.cancelAnimationFrame(root._raf_);
-    root._raf_ = null;
-    return root;
+    var _this_ = this;
+    window.cancelAnimationFrame(_this_._raf_);
+    _this_._raf_ = null;
+    return _this_;
   };
 
   /**
@@ -193,10 +194,11 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.watch = function() {
-    updateScrawlerDirection();
-    updateUnitPositions();
-    root._prev_px_position_ = window.pageYOffset;
-    return root;
+    var _this_ = this;
+    updateScrawlerDirection.call(_this_);
+    updateUnitPositions.call(_this_);
+    _this_._prev_px_position_ = window.pageYOffset;
+    return _this_;
   };
 
   /**
@@ -207,13 +209,14 @@
    * @return {Scrawler} Scrawler object
    */
   Scrawler.prototype.refresh = function(e) {
+    var _this_ = this;
 
-    updateScrawlerDirection(true);
+    updateScrawlerDirection.call(_this_, true);
 
-    root.baseline = Common.calcBaseline(root._original_baseline_);
+    _this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
-    for (var i = 0; i < root._logics_.length; i++) {
-      var _l = root._logics_[i];
+    for (var i = 0; i < _this_._logics_.length; i++) {
+      var _l = _this_._logics_[i];
       for (var j = 0; j < _l.units.length; j++) {
         var _u = _l.units[j];
         _u.baseline = Common.calcBaseline(_l.baseline, _u.el);
@@ -221,23 +224,24 @@
     }
 
     updateUnitPositions();
-    root._prev_px_position_ = window.pageYOffset;
+    _this_._prev_px_position_ = window.pageYOffset;
 
-    return root;
+    return _this_;
   };
 
   function engine() {
+    var _this_ = this;
 
-    updateScrawlerDirection();
+    updateScrawlerDirection.call(_this_);
 
-    if (root.idling < 0 || root.idling === 0 && root._dir_ !== 'stay' || root._idle_rounds_ < root.idling) {
+    if (_this_.idling < 0 || _this_.idling === 0 && _this_._dir_ !== 'stay' || _this_._idle_rounds_ < _this_.idling) {
 
-      updateUnitPositions();
+      updateUnitPositions.call(_this_);
 
-      root._prev_px_position_ = window.pageYOffset;
-      root._raf_ = window.requestAnimationFrame(engine);
+      _this_._prev_px_position_ = window.pageYOffset;
+      _this_._raf_ = window.requestAnimationFrame(engine.bind(_this_));
     } else {
-      if (root._raf_) root.pause();
+      if (_this_._raf_) _this_.pause();
     }
   }
 
@@ -252,21 +256,22 @@
    * @return void
    */
   function updateScrawlerDirection(resizing) {
+    var _this_ = this;
     if (resizing) {
-      root._dir_ = 'resizing';
+      _this_._dir_ = 'resizing';
     } else {
-      if (root._prev_px_position_ === window.pageYOffset) {
-        if (root._dir_ === 'stay') {
-          if (root.idling >= 0) root._idle_rounds_++;
-        } else if (root._dir_ === '') {
-          root._dir_ = 'initialized';
+      if (_this_._prev_px_position_ === window.pageYOffset) {
+        if (_this_._dir_ === 'stay') {
+          if (_this_.idling >= 0) _this_._idle_rounds_++;
+        } else if (_this_._dir_ === '') {
+          _this_._dir_ = 'initialized';
         } else {
-          root._dir_ = 'stay';
+          _this_._dir_ = 'stay';
         }
       } else {
-        root._idle_rounds_ = 0;
-        if (root._prev_px_position_ < window.pageYOffset) root._dir_ = 'down';
-        else root._dir_ = 'up';
+        _this_._idle_rounds_ = 0;
+        if (_this_._prev_px_position_ < window.pageYOffset) _this_._dir_ = 'down';
+        else _this_._dir_ = 'up';
       }
     }
   }
@@ -279,13 +284,14 @@
    * @return void
    */
   function updateUnitPositions() {
-    for (var i = 0; i < root._logics_.length; i++) {
-      var _l = root._logics_[i];
+    var _this_ = this;
+    for (var i = 0; i < _this_._logics_.length; i++) {
+      var _l = _this_._logics_[i];
       for (var j = 0; j < _l.units.length; j++) {
         var _u = _l.units[j];
         var _bcr = _u.el.getBoundingClientRect();
         // Update progress of each unit in a logic.
-        _u.progress.px = root.baseline.px - (_bcr.top + _u.baseline.px);
+        _u.progress.px = _this_.baseline.px - (_bcr.top + _u.baseline.px);
         _u.progress.f = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 
         if (_l.range) {
@@ -412,43 +418,43 @@
     var callbackArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
 
-    var self = this;
+    var _this_ = this;
 
-    self.id = args.id;
-    self.el = args.el;
-    self.order = args.order || 0;
-    self.range = args.range || null; // Array(2) with From and To values. 
-    self.baseline = args.baseline || 0;
-    self.callback = callback;
-    self.callbackArgs = callbackArgs;
-    self.nodelist = document.querySelectorAll(args.el);
-    self.units = [];
-    for (var i = 0; i < self.nodelist.length; i++) {
-      self.units[i] = new Scrawler.Unit({
-        el: self.nodelist[i],
-        baseline: Common.calcBaseline(self.baseline, self.nodelist[i]),
+    _this_.id = args.id;
+    _this_.el = args.el;
+    _this_.order = args.order || 0;
+    _this_.range = args.range || null; // Array(2) with From and To values. 
+    _this_.baseline = args.baseline || 0;
+    _this_.callback = callback;
+    _this_.callbackArgs = callbackArgs;
+    _this_.nodelist = document.querySelectorAll(args.el);
+    _this_.units = [];
+    for (var i = 0; i < _this_.nodelist.length; i++) {
+      _this_.units[i] = new Scrawler.Unit({
+        el: _this_.nodelist[i],
+        baseline: Common.calcBaseline(_this_.baseline, _this_.nodelist[i]),
         progress: new Scrawler.Position()
       });
     }
 
-    self._range_unit_;
+    _this_._range_unit_;
 
-    if (self.range) {
-      if (typeof self.range[1] === 'string') {
-        if (self.range[1].indexOf('%') !== -1) {
+    if (_this_.range) {
+      if (typeof _this_.range[1] === 'string') {
+        if (_this_.range[1].indexOf('%') !== -1) {
           // percent
-          self.range[0] = parseFloat(self.range[0].replace('%', '')) / 100;
-          self.range[1] = parseFloat(self.range[1].replace('%', '')) / 100;
-          self._range_unit_ = 'f';
-        } else if (self.range[1].indexOf('f') !== -1) {
-          self.range[0] = parseFloat(self.range[0].replace('f', ''));
-          self.range[1] = parseFloat(self.range[1].replace('f', ''));
-          self._range_unit_ = 'f';
+          _this_.range[0] = parseFloat(_this_.range[0].replace('%', '')) / 100;
+          _this_.range[1] = parseFloat(_this_.range[1].replace('%', '')) / 100;
+          _this_._range_unit_ = 'f';
+        } else if (_this_.range[1].indexOf('f') !== -1) {
+          _this_.range[0] = parseFloat(_this_.range[0].replace('f', ''));
+          _this_.range[1] = parseFloat(_this_.range[1].replace('f', ''));
+          _this_._range_unit_ = 'f';
         } else {
-          self._range_unit_ = 'px';
+          _this_._range_unit_ = 'px';
         }
       } else {
-        self._range_unit_ = 'px';
+        _this_._range_unit_ = 'px';
       }
     }
   };
@@ -473,14 +479,14 @@
 
   Scrawler.Unit = function(args) {
 
-    var self = this;
+    var _this_ = this;
 
-    self.el = args.el;
-    self.baseline = args.baseline;
-    self.progress = args.progress;
-    self._top_edge_rendered_ = false;
-    self._bot_edge_rendered_ = false;
-    self.scales = args.scales || {};
+    _this_.el = args.el;
+    _this_.baseline = args.baseline;
+    _this_.progress = args.progress;
+    _this_._top_edge_rendered_ = false;
+    _this_._bot_edge_rendered_ = false;
+    _this_.scales = args.scales || {};
   };
 
   Scrawler.Unit.prototype.f = function() {
@@ -495,11 +501,11 @@
     var callbackArgs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
 
-    var self = this;
+    var _this_ = this;
 
     sid = sid.toString();
     args.to = args.to || [0, 1];
-    self.scales[sid] = self.scales[sid] || {
+    _this_.scales[sid] = _this_.scales[sid] || {
       _top_edge_rendered_: false,
       _bot_edge_rendered_: false
     };
@@ -508,7 +514,7 @@
       f1 = args.from[1],
       t0 = args.to[0],
       t1 = args.to[1],
-      _m = self.scales[sid],
+      _m = _this_.scales[sid],
       range_unit = void 0,
       val = void 0;
 
@@ -530,7 +536,7 @@
       range_unit = 'px';
     }
 
-    var prg = self.progress[range_unit];
+    var prg = _this_.progress[range_unit];
 
     if (f0 <= prg && prg <= f1) {
 
@@ -538,7 +544,7 @@
       _m._bot_edge_rendered_ = false;
       val = (prg - f0) / (f1 - f0) * (t1 - t0) + t0;
       callbackArgs.unshift(val);
-      callback.apply(self, callbackArgs);
+      callback.apply(_this_, callbackArgs);
     } else {
 
       if (prg < f0) {
@@ -550,7 +556,7 @@
           prg = f0;
           val = (prg - f0) / (f1 - f0) * (t1 - t0) + t0;
           callbackArgs.unshift(val);
-          callback.apply(self, callbackArgs);
+          callback.apply(_this_, callbackArgs);
         }
       } else {
 
@@ -561,7 +567,7 @@
           prg = f1;
           val = (prg - f0) / (f1 - f0) * (t1 - t0) + t0;
           callbackArgs.unshift(val);
-          callback.apply(self, callbackArgs);
+          callback.apply(_this_, callbackArgs);
         }
       }
     }

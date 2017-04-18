@@ -1,13 +1,13 @@
 Scrawler.Unit = function(args){
 	
-	const self = this;
+	const _this_ = this;
 
-	self.el = args.el;
-	self.baseline = args.baseline;
-	self.progress = args.progress;
-	self._top_edge_rendered_ = false;
-	self._bot_edge_rendered_ = false;
-	self.scales = args.scales || {};
+	_this_.el = args.el;
+	_this_.baseline = args.baseline;
+	_this_.progress = args.progress;
+	_this_._top_edge_rendered_ = false;
+	_this_._bot_edge_rendered_ = false;
+	_this_.scales = args.scales || {};
 };
 
 Scrawler.Unit.prototype.f = function(){
@@ -20,17 +20,17 @@ Scrawler.Unit.prototype.px = function(){
 
 Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
 
-	const self = this;
+	const _this_ = this;
 
 	sid = sid.toString();
 	args.to = args.to || [0,1];
-	self.scales[sid] = self.scales[sid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
+	_this_.scales[sid] = _this_.scales[sid] || {_top_edge_rendered_: false, _bot_edge_rendered_: false};
 
 	let f0 = args.from[0],
 		f1 = args.from[1],
 		t0 = args.to[0],
 		t1 = args.to[1],
-		_m = self.scales[sid],
+		_m = _this_.scales[sid],
 		range_unit,
 		val;
 	
@@ -52,7 +52,7 @@ Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = [])
 		range_unit = 'px'
 	}
 
-	let prg = self.progress[range_unit];
+	let prg = _this_.progress[range_unit];
 
 	if (f0 <= prg && prg <= f1) {
 
@@ -60,7 +60,7 @@ Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = [])
 		_m._bot_edge_rendered_ = false;
 		val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 		callbackArgs.unshift(val);
-		callback.apply(self, callbackArgs);
+		callback.apply(_this_, callbackArgs);
 
 	} else {
 
@@ -73,7 +73,7 @@ Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = [])
 				prg = f0;
 				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 				callbackArgs.unshift(val);
-				callback.apply(self, callbackArgs);
+				callback.apply(_this_, callbackArgs);
 			}
 
 		} else {
@@ -85,7 +85,7 @@ Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = [])
 				prg = f1;
 				val = (prg - f0) / (f1-f0) * (t1-t0) + t0;
 				callbackArgs.unshift(val);
-				callback.apply(self, callbackArgs);
+				callback.apply(_this_, callbackArgs);
 			}
 		}
 	}

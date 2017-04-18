@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="../dist/Scrawler.js"></script>
+	<style>
+		* {box-sizing: border-box;}
+		body {
+			min-height: 200vh;
+			margin:  0;
+			padding: 75vh 0 0 0;
+			position: relative;
+			font-family: "Courier New", monospace;
+			font-size: 20px;
+			line-height: 1;
+			background: #111;
+			color: #fff;
+		}
+
+		.scrawler-baseline-info {
+			position: fixed;
+			top: 50vh;
+			left: 0;
+			width: 30vw;
+			color: #ff4;
+			z-index: 10;
+			line-height: 1.5;
+			font-size: 16px;
+		}
+
+		.scrawler-baseline-info li {
+			margin-bottom: 10px;
+		}
+
+		.scrawler-baseline-info li span {
+			color: #888;
+		}
+
+		[class^="baseline-"] {
+			width: 100%;
+			height: 4px;
+			border-top: 4px dashed;
+			opacity: .75;
+		}
+
+		.baseline-scrawler {
+			position: fixed;
+			top: calc(50vh - 2px);
+			left: 0;
+			z-index: 10;
+			border-color: #ff4;
+		}
+
+		.baseline-scrawler span {
+			position: absolute;
+			top: -30px;
+			left: 20px;
+			color: #ff4;
+		}
+
+		.unit {
+			width: 40vw;
+			height: 500px;
+			margin-left: 40vw;
+			position: relative;
+		}
+		#unit-1 {background: #026;}
+		#unit-2 {background: #620;}
+
+		.baseline-unit {
+			position: absolute;
+			top: -2px;
+			left: 0;
+			border-color: #4ff;
+		}
+
+		.baseline-unit span {
+			position: absolute;
+			top: -30px;
+			left: 20px;
+			color: #4ff;
+		}
+
+		.unit-info {
+			position: fixed;
+			top: 20px;
+			left: 20px;
+			padding: 30px;
+			line-height: 1.5;
+		}
+
+		.unit-baseline-info {
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: #4ff;
+			z-index: 10;
+			line-height: 1.5;
+			font-size: 16px;
+		}
+
+		.unit-baseline-info li {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="baseline-scrawler"></div>
+	<div id="unit-1" class="unit"></div>
+	<div id="unit-2" class="unit"></div>
+	<script>
+		var scrawler1 = new Scrawler({baseline: 'top'});
+		scrawler1.add({el:'#unit-1'}, function(){
+			this.el.innerHTML = this.el.id+'<br>'+this.px()+'px & '+this.f()+'f <br>away from viewport baseline';
+		}).run();
+
+		var scrawler2 = new Scrawler({baseline: 'bottom'});
+		scrawler2.add({el:'#unit-2'}, function(){
+			this.el.innerHTML = this.el.id+'<br>'+this.px()+'px & '+this.f()+'f <br>away from viewport baseline';
+		}).run();
+	</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 ### A javascript library for monitoring vertical scroll events.
 
-Scrawler is a simple library to help react users’ scroll events. As it is for people who want a super-simple, barebone library for scroll events, it only provides position data for baselines and DOM elements. All the fancy animations, parallax effect, and/or any other visual effects should be coded manually. However, if you don’t like any magic and do want to keep full control of your code, this is the right library for you. To see how Scrawler works in production, please refer to [this list](https://github.com/cy-park/Scrawler#live-links).
+Scrawler is a simple library to help react users’ scroll events. As it is for people who want a super-simple, barebone library for scroll events, it only provides position data for baselines and DOM elements. All the fancy animations, parallax effect, and/or any other visual effects should be coded manually. However, if you don’t like any magic and do want to keep full control of your code, this is the right library for you. To see how Scrawler works in production, please refer to [this list](#live-links).
 
 <br>
 

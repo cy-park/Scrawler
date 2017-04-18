@@ -1,7 +1,6 @@
 let root;
 
 // TODO:combined all classes under `Scrawler`.
-// TODO:updated to handle `f` values in options/settings.
 
 /**
  * Constructor Scrawler(args)
@@ -99,7 +98,7 @@ function Scrawler(args) {
  */
 Scrawler.prototype.add = function(args, callback, callbackArgs){
 	args.id = args.id || 'lid_'+root._logics_.length;
-	root._logics_.push(new Logic(args, callback, callbackArgs));
+	root._logics_.push(new Scrawler.Logic(args, callback, callbackArgs));
 	return root;
 };
 

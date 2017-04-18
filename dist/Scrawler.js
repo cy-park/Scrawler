@@ -18,7 +18,6 @@
   var root = void 0;
 
   // TODO:combined all classes under `Scrawler`.
-  // TODO:updated to handle `f` values in options/settings.
 
   /**
    * Constructor Scrawler(args)
@@ -116,7 +115,7 @@
    */
   Scrawler.prototype.add = function(args, callback, callbackArgs) {
     args.id = args.id || 'lid_' + root._logics_.length;
-    root._logics_.push(new Logic(args, callback, callbackArgs));
+    root._logics_.push(new Scrawler.Logic(args, callback, callbackArgs));
     return root;
   };
 
@@ -354,7 +353,7 @@
 
   Common.calcBaseline = function(baseline, el) {
 
-    var _b = new Position();
+    var _b = new Scrawler.Position();
     var _h = el ? el.getBoundingClientRect().height : window.innerHeight;
 
     switch (baseline) {
@@ -385,6 +384,10 @@
             // percent
             _b.f = parseFloat(baseline.replace('%', '')) / 100;
             _b.px = _h * _b.f;
+          } else if (baseline.indexOf('f') !== -1) {
+            // decimal
+            _b.f = parseFloat(baseline.replace('f', ''));
+            _b.px = _h * _b.f;
           } else {
             _px();
           }
@@ -398,14 +401,14 @@
   };
 
   /**
-   * Class Logic(args, callback, callbackArgs)
+   * Class Scrawler.Logic(args, callback, callbackArgs)
    * 
    * @param {object} args
    * 		  - refer to Scrawler.prototype.add() for more info.
    * @param {function} callback
    * @param {array} callbackArgs
    */
-  function Logic(args, callback) {
+  Scrawler.Logic = function(args, callback) {
     var callbackArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
 
@@ -421,21 +424,25 @@
     self.nodelist = document.querySelectorAll(args.el);
     self.units = [];
     for (var i = 0; i < self.nodelist.length; i++) {
-      self.units[i] = new Unit({
+      self.units[i] = new Scrawler.Unit({
         el: self.nodelist[i],
         baseline: Common.calcBaseline(self.baseline, self.nodelist[i]),
-        progress: new Position()
+        progress: new Scrawler.Position()
       });
     }
 
     self._range_unit_;
 
     if (self.range) {
-      if (typeof self.range[0] === 'string') {
-        if (self.range[0].indexOf('%') !== -1) {
+      if (typeof self.range[1] === 'string') {
+        if (self.range[1].indexOf('%') !== -1) {
           // percent
           self.range[0] = parseFloat(self.range[0].replace('%', '')) / 100;
           self.range[1] = parseFloat(self.range[1].replace('%', '')) / 100;
+          self._range_unit_ = 'f';
+        } else if (self.range[1].indexOf('f') !== -1) {
+          self.range[0] = parseFloat(self.range[0].replace('f', ''));
+          self.range[1] = parseFloat(self.range[1].replace('f', ''));
           self._range_unit_ = 'f';
         } else {
           self._range_unit_ = 'px';
@@ -447,7 +454,7 @@
   };
 
   /**
-   * Class Position(args)
+   * Class Scrawler.Position(args)
    *
    * Contains Scrawler Position value 
    * 
@@ -457,14 +464,14 @@
    *  	  {int} args.px
    *		  		- pixel value
    */
-  function Position() {
+  Scrawler.Position = function() {
     var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     this.f = args.f || undefined; // unit interval (fraction/float)
     this.px = args.px || undefined; // pixel
   };
 
-  function Unit(args) {
+  Scrawler.Unit = function(args) {
 
     var self = this;
 
@@ -476,15 +483,15 @@
     self.scales = args.scales || {};
   };
 
-  Unit.prototype.f = function() {
+  Scrawler.Unit.prototype.f = function() {
     return this.progress.f;
   };
 
-  Unit.prototype.px = function() {
+  Scrawler.Unit.prototype.px = function() {
     return this.progress.px;
   };
 
-  Unit.prototype.scale = function(sid, args, callback) {
+  Scrawler.Unit.prototype.scale = function(sid, args, callback) {
     var callbackArgs = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
 
 
@@ -505,12 +512,17 @@
       range_unit = void 0,
       val = void 0;
 
-    if (typeof f0 === 'string') {
-      if (f0.indexOf('%') !== -1 || f0.indexOf('f') !== -1) {
+    if (typeof f1 === 'string') {
+      if (f1.indexOf('%') !== -1) {
         // percent
+        f0 = parseFloat(f0.replace('%', '')) / 100;
+        f1 = parseFloat(f1.replace('%', '')) / 100;
         range_unit = 'f';
-        f0 = parseFloat(f0.replace('%', '').replace('f', '')) / 100;
-        f1 = parseFloat(f1.replace('%', '').replace('f', '')) / 100;
+      } else if (f1.indexOf('f') !== -1) {
+        // decimal
+        f0 = parseFloat(f0.replace('f', ''));
+        f1 = parseFloat(f1.replace('f', ''));
+        range_unit = 'f';
       } else {
         range_unit = 'px';
       }

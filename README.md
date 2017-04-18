@@ -1,4 +1,4 @@
-# Scrawler v0.4.0 (beta)
+# Scrawler v1.0.0 (beta)
 
 ### A simple javascript vertical parallax library.
 
@@ -66,6 +66,42 @@ After downloading Scrawler.js, use below code to quick-start:
   </body>
 </html>
 ```
+
+<br>
+
+## Architecture
+
+`Scrawler` consists of two main objects, `Logic` and `Unit`.
+
+```
+Scrawler
+|
++-- Logic
+|   |
+|   +-- Unit
+|
++-- Logic
+|   |
+|   +-- Unit
+|   +-- Unit
+|
++-- Logic 
+|   |
+|   +-- Unit
+|   +-- Unit
+|   +-- Unit
+.
+```
+
+### Logic
+
+`Logic` is a coded logic that explains how certain DOM elements should react based on scroll events. Therefore, when creating `Logic` (`.add()`), it is required to assign at least one DOM element (`args.el`) and define what to do with it (`callback`).  The created `Logic` will be added and stored in the `Scrawler` instance.
+
+### Unit
+
+When a `Logic` is created, `Unit` objects are automatically created based on `Logic`’s assigned DOM element (`args.el`) info. The number of created `Unit`s is identical to the number of DOM elements selected by the `args.el`. The created `Unit`s will be added and stored in the `Logic` instance.
+
+`Unit` is a piece of information about a single DOM element and its baseline, current position, etc. Its position data is constantly updated by the `Logic` that the `Unit` belongs to.
 
 <br>
 

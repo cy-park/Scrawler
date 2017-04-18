@@ -2,7 +2,7 @@ const Common = {};
 
 Common.calcBaseline = (baseline, el)=>{
 
-	const _b = new Position();
+	const _b = new Scrawler.Position();
 	const _h = el ? el.getBoundingClientRect().height : window.innerHeight;
 
 	switch (baseline) {
@@ -32,6 +32,10 @@ Common.calcBaseline = (baseline, el)=>{
 				if (baseline.indexOf('%') !== -1) {
 					// percent
 					_b.f  = parseFloat(baseline.replace('%','')) / 100;
+					_b.px = _h*_b.f;
+				} else if (baseline.indexOf('f') !== -1) {
+					// decimal
+					_b.f  = parseFloat(baseline.replace('f',''));
 					_b.px = _h*_b.f;
 				} else {
 					_px();

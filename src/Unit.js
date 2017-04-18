@@ -1,4 +1,4 @@
-function Unit(args){
+Scrawler.Unit = function(args){
 	
 	const self = this;
 
@@ -10,15 +10,15 @@ function Unit(args){
 	self.scales = args.scales || {};
 };
 
-Unit.prototype.f = function(){
+Scrawler.Unit.prototype.f = function(){
 	return this.progress.f;
 };
 
-Unit.prototype.px = function(){
+Scrawler.Unit.prototype.px = function(){
 	return this.progress.px;
 };
 
-Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
+Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
 
 	const self = this;
 
@@ -34,12 +34,17 @@ Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
 		range_unit,
 		val;
 	
-	if (typeof f0 === 'string') {
-		if (f0.indexOf('%') !== -1 || f0.indexOf('f') !== -1) {
+	if (typeof f1 === 'string') {
+		if (f1.indexOf('%') !== -1) {
 			// percent
+			f0 = parseFloat(f0.replace('%','')) / 100;
+			f1 = parseFloat(f1.replace('%','')) / 100;
 			range_unit = 'f'
-			f0 = parseFloat(f0.replace('%','').replace('f','')) / 100;
-			f1 = parseFloat(f1.replace('%','').replace('f','')) / 100;
+		} else if (f1.indexOf('f') !== -1) {
+			// decimal
+			f0 = parseFloat(f0.replace('f',''));
+			f1 = parseFloat(f1.replace('f',''));
+			range_unit = 'f'
 		} else {
 			range_unit = 'px'
 		}

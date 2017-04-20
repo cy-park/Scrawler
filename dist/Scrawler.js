@@ -1,4 +1,4 @@
-/*! Scrawler.js v1.1.0 | (c) 2016-2017 Chan Young Park | MIT License */ 
+/*! Scrawler.js v1.1.1 | (c) 2016-2017 Chan Young Park | MIT License */ 
 (function(global, factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
@@ -17,7 +17,7 @@
 
   /**
    * Constructor Scrawler(args)
-   * 	
+   *
    * @param {object} [args] (default: {})
    * @param {int} [args.fps] (default: 0) Currently not implemented.
    *		  Frames per second.
@@ -28,7 +28,7 @@
    *		  - integer: pixel distance from the top of the viewport.
    *		  - string: 'top', 'center', 'bottom', or '0%' to '100%' as a string
    * @param {int} [idling] (default: 0)
-   *		  Number of rounds that Engine runs after scroll stops. 
+   *		  Number of rounds that Engine runs after scroll stops.
    * 		  Usually, there is no need to run Engine after scroll stops.
    * 		  If this value is -1, Engine will be always running regardless of scroll.
    *		  Engine running === requestAnimationFrame()
@@ -43,7 +43,7 @@
     _this_.fps = args.fps || 0;
 
     // Variable to store original baseline value from args
-    _this_._original_baseline_ = args.baseline || 'center';
+    _this_._original_baseline_ = args.baseline.toString() || 'center';
 
     // Baseline value converted to Scrawler.Position() === {px:N, f:N}
     _this_.baseline = Common.calcBaseline(_this_._original_baseline_);
@@ -79,8 +79,8 @@
    * Add a Logic to Scrawler.
    * A Logic contains code how designated DOM element(s)
    * will react based on scrolls.
-   * Once a Logic is registered by Scrawler.add(), 
-   * Scrawler will automatically run each 
+   * Once a Logic is registered by Scrawler.add(),
+   * Scrawler will automatically run each
    * registered Logic when scroll events happen.
    *
    * @param {object} args
@@ -89,7 +89,7 @@
    * @param {array(2)} [args.range] (default: null)
    *		  Range where this Logic will be executed.
    *		  If null, the callback function will run regardless of scroll position.
-   *		  Range can be either percentage or pixel. 
+   *		  Range can be either percentage or pixel.
    *		  i.e.) ['0%','100%'] or [0, 5000]
    * @param {int|string} [args.baseline] (default: 0)
    *		  The DOM element's baseline position. Scrawler measures the distance between viewport baseline and this baseline.

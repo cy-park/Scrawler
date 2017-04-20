@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.1.1 (pre-release)
+## 1.1.2 (pre-release)
+
+## 1.1.1 (2017-04-20)
+
+#### fixes
+- fixed interpreting `baseline:0` to `baseline:false` when creating `Scralwer`.
 
 ## 1.1.0 (2017-04-18)
 

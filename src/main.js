@@ -1,6 +1,6 @@
 /**
  * Constructor Scrawler(args)
- * 	
+ *
  * @param {object} [args] (default: {})
  * @param {int} [args.fps] (default: 0) Currently not implemented.
  *		  Frames per second.
@@ -11,7 +11,7 @@
  *		  - integer: pixel distance from the top of the viewport.
  *		  - string: 'top', 'center', 'bottom', or '0%' to '100%' as a string
  * @param {int} [idling] (default: 0)
- *		  Number of rounds that Engine runs after scroll stops. 
+ *		  Number of rounds that Engine runs after scroll stops.
  * 		  Usually, there is no need to run Engine after scroll stops.
  * 		  If this value is -1, Engine will be always running regardless of scroll.
  *		  Engine running === requestAnimationFrame()
@@ -24,7 +24,7 @@ function Scrawler(args = {}) {
 	_this_.fps = args.fps || 0;
 
 	// Variable to store original baseline value from args
-	_this_._original_baseline_ = args.baseline || 'center';
+	_this_._original_baseline_ = args.baseline.toString() || 'center';
 
 	// Baseline value converted to Scrawler.Position() === {px:N, f:N}
 	_this_.baseline = Common.calcBaseline(_this_._original_baseline_);
@@ -60,8 +60,8 @@ function Scrawler(args = {}) {
  * Add a Logic to Scrawler.
  * A Logic contains code how designated DOM element(s)
  * will react based on scrolls.
- * Once a Logic is registered by Scrawler.add(), 
- * Scrawler will automatically run each 
+ * Once a Logic is registered by Scrawler.add(),
+ * Scrawler will automatically run each
  * registered Logic when scroll events happen.
  *
  * @param {object} args
@@ -70,7 +70,7 @@ function Scrawler(args = {}) {
  * @param {array(2)} [args.range] (default: null)
  *		  Range where this Logic will be executed.
  *		  If null, the callback function will run regardless of scroll position.
- *		  Range can be either percentage or pixel. 
+ *		  Range can be either percentage or pixel.
  *		  i.e.) ['0%','100%'] or [0, 5000]
  * @param {int|string} [args.baseline] (default: 0)
  *		  The DOM element's baseline position. Scrawler measures the distance between viewport baseline and this baseline.
@@ -218,7 +218,7 @@ function engine(){
 	if (_this_.idling < 0 ||
 		(_this_.idling === 0 && _this_._dir_ !== 'stay') ||
 		_this_._idle_rounds_ < _this_.idling) {
- 
+
 		updateUnitPositions.call(_this_);
 
 		_this_._prev_px_position_ = window.pageYOffset;

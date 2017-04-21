@@ -8,9 +8,6 @@ CHANGELOG
 #### new features:
 - added `progress.vf` value and `Scrawler.Unit.vf()`, which is a relative progress value based on the viewport height.
 
-#### fixes:
-- fixed to run engine once after Scrawler.run().
-
 ## 1.1.2 (2017-04-21)
 
 #### fixes:

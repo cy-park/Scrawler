@@ -1,4 +1,4 @@
-/*! Scrawler.js v1.1.1 | (c) 2016-2017 Chan Young Park | MIT License */ 
+/*! Scrawler.js v1.1.2 | (c) 2016-2017 Chan Young Park | MIT License */ 
 (function(global, factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
@@ -70,7 +70,7 @@
 
     _this_._scroll_event_initialized_ = false;
 
-    window.addEventListener('resize', _this_.refresh);
+    window.addEventListener('resize', _this_.refresh.bind(_this_));
   };
 
   /**
@@ -208,7 +208,7 @@
    *
    * @return {Scrawler} Scrawler object
    */
-  Scrawler.prototype.refresh = function(e) {
+  Scrawler.prototype.refresh = function() {
     var _this_ = this;
 
     updateScrawlerDirection.call(_this_, true);
@@ -223,7 +223,7 @@
       }
     }
 
-    updateUnitPositions();
+    updateUnitPositions.call(_this_);
     _this_._prev_px_position_ = window.pageYOffset;
 
     return _this_;

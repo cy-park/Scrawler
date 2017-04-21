@@ -51,7 +51,7 @@ function Scrawler(args = {}) {
 
 	_this_._scroll_event_initialized_ = false;
 
-	window.addEventListener('resize', _this_.refresh);
+	window.addEventListener('resize', _this_.refresh.bind(_this_));
 };
 
 /**
@@ -189,7 +189,7 @@ Scrawler.prototype.watch = function(){
  *
  * @return {Scrawler} Scrawler object
  */
-Scrawler.prototype.refresh = function(e){
+Scrawler.prototype.refresh = function(){
 	const _this_ = this;
 
 	updateScrawlerDirection.call(_this_, true);
@@ -204,7 +204,7 @@ Scrawler.prototype.refresh = function(e){
 		}
 	}
 
-	updateUnitPositions();
+	updateUnitPositions.call(_this_);
 	_this_._prev_px_position_ = window.pageYOffset;
 
 	return _this_;

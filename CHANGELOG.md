@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.1.2 (pre-release)
+## 1.1.3 (pre-release)
+
+## 1.1.2 (2017-04-21)
+
+#### fixes
+- fixed missing `this` instance while refreshing
 
 ## 1.1.1 (2017-04-20)
 

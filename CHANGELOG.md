@@ -5,17 +5,20 @@ CHANGELOG
 
 ## 1.2.0 (pre-release)
 
-#### new features
+#### new features:
 - added `progress.vf` value and `Scrawler.Unit.vf()`, which is a relative progress value based on the viewport height.
+
+#### fixes:
+- fixed to run engine once after Scrawler.run().
 
 ## 1.1.2 (2017-04-21)
 
-#### fixes
+#### fixes:
 - fixed missing `this` instance while refreshing
 
 ## 1.1.1 (2017-04-20)
 
-#### fixes
+#### fixes:
 - fixed interpreting `baseline:0` to `baseline:false` when creating `Scralwer`.
 
 ## 1.1.0 (2017-04-18)

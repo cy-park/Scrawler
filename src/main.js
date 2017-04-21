@@ -145,6 +145,7 @@ Scrawler.prototype.run = function(){
 	const _this_ = this;
 	if (!_this_._scroll_event_initialized_) {
 		_this_._scroll_event_initialized_ = true;
+		engine.call(_this_);
 		window.addEventListener('scroll', _this_.run.bind(_this_));
 	}
 	_this_._raf_ = window.requestAnimationFrame(engine.bind(_this_));

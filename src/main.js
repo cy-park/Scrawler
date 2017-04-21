@@ -26,7 +26,7 @@ function Scrawler(args = {}) {
 	// Variable to store original baseline value from args
 	_this_._original_baseline_ = args.baseline.toString() || 'center';
 
-	// Baseline value converted to Scrawler.Position() === {px:N, f:N}
+	// Baseline value converted to Scrawler.Position() === {px:N, f:N, vf:N}
 	_this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
 	// Number of idle Engine rounds
@@ -267,6 +267,7 @@ function updateScrawlerDirection(resizing){
  */
 function updateUnitPositions(){
 	const _this_ = this;
+	const wh = window.innerHeight;
 	for (let i = 0; i < _this_._logics_.length; i++) {
 		const _l  = _this_._logics_[i];
 		for (let j = 0; j < _l.units.length; j++) {
@@ -274,6 +275,7 @@ function updateUnitPositions(){
 			const _bcr = _u.el.getBoundingClientRect();
 			// Update progress of each unit in a logic.
 			_u.progress.px = _this_.baseline.px - (_bcr.top+_u.baseline.px);
+			_u.progress.vf = _u.progress.px / wh;
 			_u.progress.f  = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 
 			if (_l.range) {
@@ -306,6 +308,8 @@ function updateUnitPositions(){
 							_u.progress.px = _bcr.height * _u.progress.f;
 						}
 
+						_u.progress.vf = _u.progress.px / wh;
+
 						if (!_u._top_edge_rendered_) {
 							_u._top_edge_rendered_ = true;
 							_l.callback.apply(_u, _l.callbackArgs);
@@ -323,6 +327,8 @@ function updateUnitPositions(){
 							_u.progress.f  = _l.range[1];
 							_u.progress.px = _bcr.height * _u.progress.f;
 						}
+
+						_u.progress.vf = _u.progress.px / wh;
 
 						if (!_u._bot_edge_rendered_) {
 							_u._bot_edge_rendered_ = true;

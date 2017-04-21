@@ -1,4 +1,4 @@
-# Scrawler v1.1.2
+# Scrawler v1.2.0
 
 ### A javascript library for monitoring vertical scroll events.
 

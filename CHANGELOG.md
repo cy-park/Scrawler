@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.1.3 (pre-release)
+## 1.2.1 (pre-release)
+
+## 1.2.0 (pre-release)
+
+#### new features
+- added `progress.vf` value and `Scrawler.Unit.vf()`, which is a relative progress value based on the viewport height.
 
 ## 1.1.2 (2017-04-21)
 

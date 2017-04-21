@@ -2,8 +2,9 @@ const Common = {};
 
 Common.calcBaseline = (baseline, el)=>{
 
+	const wh = window.innerHeight;
 	const _b = new Scrawler.Position();
-	const _h = el ? el.getBoundingClientRect().height : window.innerHeight;
+	const _h = el ? el.getBoundingClientRect().height : wh;
 
 	switch (baseline) {
 
@@ -34,9 +35,15 @@ Common.calcBaseline = (baseline, el)=>{
 					_b.f  = parseFloat(baseline.replace('%','')) / 100;
 					_b.px = _h*_b.f;
 				} else if (baseline.indexOf('f') !== -1) {
-					// decimal
-					_b.f  = parseFloat(baseline.replace('f',''));
-					_b.px = _h*_b.f;
+					if (baseline.indexOf('v') !== -1) {
+						// viewport decimal
+						_b.px = wh * parseFloat(baseline.replace('vf',''));
+						_b.f = _b.px/_h;
+					} else {
+						// decimal
+						_b.f  = parseFloat(baseline.replace('f',''));
+						_b.px = _h*_b.f;
+					}
 				} else {
 					_px();
 				}
@@ -45,6 +52,10 @@ Common.calcBaseline = (baseline, el)=>{
 			}
 			break;
 	}
+
+	// TODO: create setF() and calculate f here. All initially should have px value.
+
+	_b.vf = _b.px/wh;
 
 	return _b;
 };

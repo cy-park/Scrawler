@@ -1,6 +1,6 @@
 /**
  * Class Scrawler.Logic(args, callback, callbackArgs)
- * 
+ *
  * @param {object} args
  * 		  - refer to Scrawler.prototype.add() for more info.
  * @param {function} callback
@@ -13,7 +13,7 @@ Scrawler.Logic = function(args, callback, callbackArgs = []){
 	_this_.id = args.id;
 	_this_.el = args.el;
 	_this_.order = args.order || 0;
-	_this_.range = args.range || null; // Array(2) with From and To values. 
+	_this_.range = args.range || null; // Array(2) with From and To values.
 	_this_.baseline = args.baseline||0;
 	_this_.callback = callback;
 	_this_.callbackArgs = callbackArgs;
@@ -37,9 +37,15 @@ Scrawler.Logic = function(args, callback, callbackArgs = []){
 				_this_.range[1] = parseFloat(_this_.range[1].replace('%','')) / 100;
 				_this_._range_unit_ = 'f';
 			} else if (_this_.range[1].indexOf('f') !== -1) {
-				_this_.range[0] = parseFloat(_this_.range[0].replace('f',''));
-				_this_.range[1] = parseFloat(_this_.range[1].replace('f',''));
-				_this_._range_unit_ = 'f';
+				if (_this_.range[1].indexOf('v') !== -1) {
+					_this_.range[0] = parseFloat(_this_.range[0].replace('vf',''));
+					_this_.range[1] = parseFloat(_this_.range[1].replace('vf',''));
+					_this_._range_unit_ = 'vf';
+				} else {
+					_this_.range[0] = parseFloat(_this_.range[0].replace('f',''));
+					_this_.range[1] = parseFloat(_this_.range[1].replace('f',''));
+					_this_._range_unit_ = 'f';
+				}
 			} else {
 				_this_._range_unit_ = 'px';
 			}

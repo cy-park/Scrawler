@@ -1,4 +1,4 @@
-/*! Scrawler.js v1.1.2 | (c) 2016-2017 Chan Young Park | MIT License */ 
+/*! Scrawler.js v1.2.0 | (c) 2016-2017 Chan Young Park | MIT License */ 
 (function(global, factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
@@ -45,7 +45,7 @@
     // Variable to store original baseline value from args
     _this_._original_baseline_ = args.baseline.toString() || 'center';
 
-    // Baseline value converted to Scrawler.Position() === {px:N, f:N}
+    // Baseline value converted to Scrawler.Position() === {px:N, f:N, vf:N}
     _this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
     // Number of idle Engine rounds
@@ -285,6 +285,7 @@
    */
   function updateUnitPositions() {
     var _this_ = this;
+    var wh = window.innerHeight;
     for (var i = 0; i < _this_._logics_.length; i++) {
       var _l = _this_._logics_[i];
       for (var j = 0; j < _l.units.length; j++) {
@@ -292,6 +293,7 @@
         var _bcr = _u.el.getBoundingClientRect();
         // Update progress of each unit in a logic.
         _u.progress.px = _this_.baseline.px - (_bcr.top + _u.baseline.px);
+        _u.progress.vf = _u.progress.px / wh;
         _u.progress.f = _bcr.height === 0 ? 0 : _u.progress.px / _bcr.height;
 
         if (_l.range) {
@@ -324,6 +326,8 @@
                 _u.progress.px = _bcr.height * _u.progress.f;
               }
 
+              _u.progress.vf = _u.progress.px / wh;
+
               if (!_u._top_edge_rendered_) {
                 _u._top_edge_rendered_ = true;
                 _l.callback.apply(_u, _l.callbackArgs);
@@ -342,6 +346,8 @@
                 _u.progress.px = _bcr.height * _u.progress.f;
               }
 
+              _u.progress.vf = _u.progress.px / wh;
+
               if (!_u._bot_edge_rendered_) {
                 _u._bot_edge_rendered_ = true;
                 _l.callback.apply(_u, _l.callbackArgs);
@@ -359,8 +365,9 @@
 
   Common.calcBaseline = function(baseline, el) {
 
+    var wh = window.innerHeight;
     var _b = new Scrawler.Position();
-    var _h = el ? el.getBoundingClientRect().height : window.innerHeight;
+    var _h = el ? el.getBoundingClientRect().height : wh;
 
     switch (baseline) {
 
@@ -391,9 +398,15 @@
             _b.f = parseFloat(baseline.replace('%', '')) / 100;
             _b.px = _h * _b.f;
           } else if (baseline.indexOf('f') !== -1) {
-            // decimal
-            _b.f = parseFloat(baseline.replace('f', ''));
-            _b.px = _h * _b.f;
+            if (baseline.indexOf('v') !== -1) {
+              // viewport decimal
+              _b.px = wh * parseFloat(baseline.replace('vf', ''));
+              _b.f = _b.px / _h;
+            } else {
+              // decimal
+              _b.f = parseFloat(baseline.replace('f', ''));
+              _b.px = _h * _b.f;
+            }
           } else {
             _px();
           }
@@ -403,12 +416,16 @@
         break;
     }
 
+    // TODO: create setF() and calculate f here. All initially should have px value.
+
+    _b.vf = _b.px / wh;
+
     return _b;
   };
 
   /**
    * Class Scrawler.Logic(args, callback, callbackArgs)
-   * 
+   *
    * @param {object} args
    * 		  - refer to Scrawler.prototype.add() for more info.
    * @param {function} callback
@@ -423,7 +440,7 @@
     _this_.id = args.id;
     _this_.el = args.el;
     _this_.order = args.order || 0;
-    _this_.range = args.range || null; // Array(2) with From and To values. 
+    _this_.range = args.range || null; // Array(2) with From and To values.
     _this_.baseline = args.baseline || 0;
     _this_.callback = callback;
     _this_.callbackArgs = callbackArgs;
@@ -447,9 +464,15 @@
           _this_.range[1] = parseFloat(_this_.range[1].replace('%', '')) / 100;
           _this_._range_unit_ = 'f';
         } else if (_this_.range[1].indexOf('f') !== -1) {
-          _this_.range[0] = parseFloat(_this_.range[0].replace('f', ''));
-          _this_.range[1] = parseFloat(_this_.range[1].replace('f', ''));
-          _this_._range_unit_ = 'f';
+          if (_this_.range[1].indexOf('v') !== -1) {
+            _this_.range[0] = parseFloat(_this_.range[0].replace('vf', ''));
+            _this_.range[1] = parseFloat(_this_.range[1].replace('vf', ''));
+            _this_._range_unit_ = 'vf';
+          } else {
+            _this_.range[0] = parseFloat(_this_.range[0].replace('f', ''));
+            _this_.range[1] = parseFloat(_this_.range[1].replace('f', ''));
+            _this_._range_unit_ = 'f';
+          }
         } else {
           _this_._range_unit_ = 'px';
         }
@@ -462,18 +485,22 @@
   /**
    * Class Scrawler.Position(args)
    *
-   * Contains Scrawler Position value 
-   * 
+   * Contains Scrawler Position value
+   *
    * @param {object} args (default: {})
    *		  {int} args.f
-   *		  		- unit interval (fraction/float)
+   *		  		- unit interval based on unit height (fraction/float)
+   *		  {int} args.vf
+   *		  		- unit interval based on viewport height (fraction/float)
+   *				- only exists for Unit Positions, not baseline Positions.
    *  	  {int} args.px
    *		  		- pixel value
    */
   Scrawler.Position = function() {
     var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    this.f = args.f || undefined; // unit interval (fraction/float)
+    this.f = args.f || undefined; // unit interval based on unit height (fraction/float)
+    this.vf = args.vf || undefined; // unit interval based on viewport height (fraction/float)
     this.px = args.px || undefined; // pixel
   };
 
@@ -495,6 +522,10 @@
 
   Scrawler.Unit.prototype.px = function() {
     return this.progress.px;
+  };
+
+  Scrawler.Unit.prototype.vf = function() {
+    return this.progress.vf;
   };
 
   Scrawler.Unit.prototype.scale = function(sid, args, callback) {
@@ -525,10 +556,17 @@
         f1 = parseFloat(f1.replace('%', '')) / 100;
         range_unit = 'f';
       } else if (f1.indexOf('f') !== -1) {
-        // decimal
-        f0 = parseFloat(f0.replace('f', ''));
-        f1 = parseFloat(f1.replace('f', ''));
-        range_unit = 'f';
+        if (f1.indexOf('v') !== -1) {
+          // viewport decimal
+          f0 = parseFloat(f0.replace('vf', ''));
+          f1 = parseFloat(f1.replace('vf', ''));
+          range_unit = 'vf';
+        } else {
+          // decimal
+          f0 = parseFloat(f0.replace('f', ''));
+          f1 = parseFloat(f1.replace('f', ''));
+          range_unit = 'f';
+        }
       } else {
         range_unit = 'px';
       }

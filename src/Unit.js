@@ -1,5 +1,5 @@
 Scrawler.Unit = function(args){
-	
+
 	const _this_ = this;
 
 	_this_.el = args.el;
@@ -18,6 +18,10 @@ Scrawler.Unit.prototype.px = function(){
 	return this.progress.px;
 };
 
+Scrawler.Unit.prototype.vf = function(){
+	return this.progress.vf;
+};
+
 Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = []){
 
 	const _this_ = this;
@@ -33,23 +37,30 @@ Scrawler.Unit.prototype.scale = function(sid, args, callback, callbackArgs = [])
 		_m = _this_.scales[sid],
 		range_unit,
 		val;
-	
+
 	if (typeof f1 === 'string') {
 		if (f1.indexOf('%') !== -1) {
 			// percent
 			f0 = parseFloat(f0.replace('%','')) / 100;
 			f1 = parseFloat(f1.replace('%','')) / 100;
-			range_unit = 'f'
+			range_unit = 'f';
 		} else if (f1.indexOf('f') !== -1) {
-			// decimal
-			f0 = parseFloat(f0.replace('f',''));
-			f1 = parseFloat(f1.replace('f',''));
-			range_unit = 'f'
+			if (f1.indexOf('v') !== -1) {
+				// viewport decimal
+				f0 = parseFloat(f0.replace('vf',''));
+				f1 = parseFloat(f1.replace('vf',''));
+				range_unit = 'vf';
+			} else {
+				// decimal
+				f0 = parseFloat(f0.replace('f',''));
+				f1 = parseFloat(f1.replace('f',''));
+				range_unit = 'f';
+			}
 		} else {
-			range_unit = 'px'
+			range_unit = 'px';
 		}
 	} else {
-		range_unit = 'px'
+		range_unit = 'px';
 	}
 
 	let prg = _this_.progress[range_unit];

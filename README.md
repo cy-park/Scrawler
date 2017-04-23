@@ -179,7 +179,7 @@ Add a `Logic` to `Scrawler`.
 	| Parameter    | Type                | Default        | Description |
 	| ------------ | ------------------- | -------------- | ----------- |
 	| `el`         | *string*            | -              | **[REQUIRED]** Query selector string for target DOM elements. |
-	| `range`      | *Array(2)*          | -              | Range where the `Logic` will be executed. The first and the second array value stand for the starting position and the ending position of the `Logic` respectively. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `100f` (float/decimal values). <br>If `range` is not assigned, the `Logic` will be executed at any range, from `-INFINITY` to `+INFINITY`. To run the `Logic` only when the DOM meets the viewport baseline, assign `['0%', '100%']` or `['0f', '1f']` for this range value. |
+	| `range`      | *Array(2)*          | -              | Range where the `Logic` will be executed. The first and the second array value stand for the starting position and the ending position of the `Logic` respectively. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `100f` (fraction values). <br>If `range` is not assigned, the `Logic` will be executed at any range, from `-INFINITY` to `+INFINITY`. To run the `Logic` only when the DOM meets the viewport baseline, assign `['0%', '100%']` or `['0f', '1f']` for this range value. |
 	| `id`         | *string*            | (random value) | (optional) ID for the `Logic`. Required to remove this `Logic` later with `Scrawler.remove()` method. |
 	| `baseline`   | *integer or string* | 0              | The DOM element's baseline position. `Scrawler` measures the distance between the viewport baseline and this baseline. <br>If an integer value is used, it means pixel distance from the top of the viewport. Percentage (i.e. `'50%'`) or f values (i.e. `'0.5f'`) in strings mean relative position from viewport. Alternatively, `'top'`/`'center'`/`'bottom'` can be also used instead of `'0%'`/`'50%'`/`'100%'` or `'0f'`/`'0.5f'`/`'1f'`,  respectively. |
 	| `order`      | *integer*           | 0              | Running order of `Logic` objects. Bigger order number will run later. |
@@ -454,7 +454,7 @@ scrawler
 
 ### .progress
 
-Progress of the `Unit` in decimal value (unit interval, 0 to 1 range) and pixel value.
+Progress of the `Unit` in fraction (`f`), viewport fraction (`vf`), and pixel (`px`). All fraction values stand for unit intervals, from 0 to 1 range.
 
 **Example:**
 
@@ -462,8 +462,9 @@ Progress of the `Unit` in decimal value (unit interval, 0 to 1 range) and pixel 
 scrawler
 .add({ el: '.scrawler-unit' }, function(){
   console.log(
-    this.progress.f, // progress in decimal value
-    this.progress.px // progress in pixel value
+    this.progress.f,  // progress in fraction
+    this.progress.vf, // progress in viewport fraction
+    this.progress.px  // progress in pixel
   );
 });
 ```
@@ -480,7 +481,30 @@ Shorthand of `Scrawler.Unit.progress.f`.
 <b>.f()</b>
 </pre>
 
-**Return:** *{float}* `Unit` progress value in decimal.
+**Return:** *{float}* `Unit` progress value in fraction.
+
+**Example:**
+
+```JS
+scrawler
+.add({ el: '.scrawler-unit' }, function(){
+  console.log( this.f() );
+});
+```
+
+<br>
+
+### .vf()
+
+Shorthand of `Scrawler.Unit.progress.vf`.
+
+**Syntax:**
+
+<pre>
+<b>.vf()</b>
+</pre>
+
+**Return:** *{float}* `Unit` progress value in viewport fraction.
 
 **Example:**
 
@@ -535,7 +559,7 @@ Linear interpolate a range of values to another.
 
 	| Parameter    | Type                      | Default        | Description |
 	| ------------ | ---------- | -------------- | ----------- |
-	| `from`       | *Array(2)* | -              | **[REQUIRED]** Source range of interpolation. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `1f` (float/decimal values). |
+	| `from`       | *Array(2)* | -              | **[REQUIRED]** Source range of interpolation. <br>Both array values can have either integer or string. Integer stands for pixel value. String value should be a specific format such as `0%` to `100%` (percentage values), or `0f` to `1f` (fraction values). |
 	| `to   `      | *Array(2)* | `[0, 1]`       | Target range of interpolation. Both array values should have integers. |
 
 - `callback` *{function(interpolated_value)}* This function is called  when current `Unit`’s `progress` is in source range (`scale_values.from`). The first argument of the `callback` is the interpolated value of current `Unit`’s `progress`.
@@ -604,15 +628,19 @@ scrawler
 
 ### Scrawler.Position()
 
-`Position` object contains a pixel value and a unit interval (decimal) value. It is a standard format for any position values used in this library.
+`Position` object contains a fraction value (`f`), a viewport fraction value (`vf`), and a pixel value (`px`). It is a standard format for any position values used in this library.
 
 ### .f
 
-Position value in unit interval (decimal).
+Position value in fraction.
+
+### .vf
+
+Position value in viewport fraction.
 
 ### .px
 
-Position value in unit interval (integer).
+Position value in pixel.
 
 <br>
 

@@ -3,10 +3,17 @@ CHANGELOG
 
 ## 1.2.1 (pre-release)
 
-## 1.2.0 (pre-release)
+## 1.2.0 (2017-05-01)
 
 #### new features:
 - added `progress.vf` value and `Scrawler.Unit.vf()`, which is a relative progress value based on the viewport height.
+
+#### updates:
+- updated to automatically run engine after resize.
+
+#### fixes:
+- fixed an error occurring when no `Scralwer.baseline` is entered.
+- fixed typo in README.md
 
 ## 1.1.2 (2017-04-21)
 

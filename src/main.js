@@ -24,10 +24,10 @@ function Scrawler(args = {}) {
 	_this_.fps = args.fps || 0;
 
 	// Variable to store original baseline value from args
-	_this_._original_baseline_ = args.baseline.toString() || 'center';
+	_this_._original_baseline_ = args.baseline || 'center';
 
 	// Baseline value converted to Scrawler.Position() === {px:N, f:N, vf:N}
-	_this_.baseline = Common.calcBaseline(_this_._original_baseline_);
+	_this_.baseline = Common.calcBaseline(_this_._original_baseline_.toString());
 
 	// Number of idle Engine rounds
 	_this_.idling = parseInt(args.idling)||0;
@@ -51,7 +51,9 @@ function Scrawler(args = {}) {
 
 	_this_._scroll_event_initialized_ = false;
 
-	window.addEventListener('resize', _this_.refresh.bind(_this_));
+	window.addEventListener('resize', function(){
+		_this_.refresh().run();
+	});
 };
 
 /**

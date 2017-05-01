@@ -656,7 +656,7 @@ Position value in pixel.
 
 ## Browser Support
 
-Scarawler supports all major modern browsers including IE 10+.
+Scrawler supports all major modern browsers including IE 10+.
 
 ## License
 

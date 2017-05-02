@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.2.1 (pre-release)
+## 1.2.2 (pre-release)
+
+## 1.2.1 (2017-05-01)
+
+#### fixes:
+- fixed an error occurring when no `Scralwer.baseline` is entered (finally!).
 
 ## 1.2.0 (2017-05-01)
 

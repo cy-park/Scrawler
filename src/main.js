@@ -24,10 +24,10 @@ function Scrawler(args = {}) {
 	_this_.fps = args.fps || 0;
 
 	// Variable to store original baseline value from args
-	_this_._original_baseline_ = args.baseline || 'center';
+	_this_._original_baseline_ = typeof args.baseline === 'number' ? args.baseline : (args.baseline || 'center');
 
 	// Baseline value converted to Scrawler.Position() === {px:N, f:N, vf:N}
-	_this_.baseline = Common.calcBaseline(_this_._original_baseline_.toString());
+	_this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
 	// Number of idle Engine rounds
 	_this_.idling = parseInt(args.idling)||0;

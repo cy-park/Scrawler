@@ -1,4 +1,4 @@
-/*! Scrawler.js v1.2.0 | (c) 2016-2017 Chan Young Park | MIT License */ 
+/*! Scrawler.js v1.2.1 | (c) 2016-2017 Chan Young Park | MIT License */ 
 (function(global, factory) {
   'use strict';
   if (typeof define === 'function' && define.amd) {
@@ -43,10 +43,10 @@
     _this_.fps = args.fps || 0;
 
     // Variable to store original baseline value from args
-    _this_._original_baseline_ = args.baseline || 'center';
+    _this_._original_baseline_ = typeof args.baseline === 'number' ? args.baseline : args.baseline || 'center';
 
     // Baseline value converted to Scrawler.Position() === {px:N, f:N, vf:N}
-    _this_.baseline = Common.calcBaseline(_this_._original_baseline_.toString());
+    _this_.baseline = Common.calcBaseline(_this_._original_baseline_);
 
     // Number of idle Engine rounds
     _this_.idling = parseInt(args.idling) || 0;

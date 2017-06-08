@@ -155,9 +155,10 @@ This is the end of the basic instruction! You can find the live example of above
 
 ### [Advanced Usages](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 
-- [Adding Multiple DOM Elements](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
-- [Moving Viewport Baseline at Center](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
-- [Set DOM Element Baselines](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
+- [Adding Multiple DOM Elements](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#adding-multiple-dom-elements)
+- [Moving Viewport Baseline at Center](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#moving-viewport-baseline-at-center)
+- [Setting DOM Element Baselines](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#setting-dom-element-baselines)
+- [Interpolating `progress` Values](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#set-dom-element-baselines)
 
 ### [Architecture and APIs](https://github.com/cy-park/Scrawler/blob/master/docs/API.md)
 

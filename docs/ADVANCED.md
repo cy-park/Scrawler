@@ -4,4 +4,6 @@
 
 ## Moving Viewport Baseline at Center
 
-## Set DOM Element Baselines
+## Setting DOM Element Baselines
+
+## Interpolating `progress` Values

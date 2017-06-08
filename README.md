@@ -153,13 +153,13 @@ This is the end of the basic instruction! You can find the live example of above
 
 ## Documents
 
-### [Advanced Usage Instructions](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
+### [Advanced Usages](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 
 - [Adding Multiple DOM Elements](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 - [Moving Viewport Baseline at Center](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 - [Set DOM Element Baselines](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 
-### [APIs and Internal Architecture](https://github.com/cy-park/Scrawler/blob/master/docs/API.md)
+### [Architecture and APIs](https://github.com/cy-park/Scrawler/blob/master/docs/API.md)
 
 <br>
 

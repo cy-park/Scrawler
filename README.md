@@ -61,9 +61,9 @@ The `progress` value is everything Scrawler offers. Here are a few example situa
 - Use page scroll position to update data visualization.
 - Any parallax effects.
 
-## Basic Instruction
+## Basic Instructions
 
-Now let’s build a basic example. The minimum settings to experiment with Scrawler are:
+Now let’s build a simple example. The minimum settings to experiment with Scrawler are:
 
 - `<body>` that is long enough to scroll.
 - At least one DOM element (i.e. `<div>`) for Scrawler to monitor.
@@ -147,7 +147,7 @@ Following illustration explains the relationship among all progress values.
 
 ![](https://raw.githubusercontent.com/cy-park/Scrawler/master/docs/assets/progress_all.png)
 
-This is the end of the basic instruction! You can find the live example of above code [here](https://codepen.io/cypark/pen/GEpjKx).
+This is the end of the basic instruction! You can find the live demo of the above code [here](https://codepen.io/cypark/pen/GEpjKx).
 
 <br>
 
@@ -158,7 +158,7 @@ This is the end of the basic instruction! You can find the live example of above
 - [Adding Multiple DOM Elements](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#adding-multiple-dom-elements)
 - [Moving Viewport Baseline at Center](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#moving-viewport-baseline-at-center)
 - [Setting DOM Element Baselines](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#setting-dom-element-baselines)
-- [Interpolating `progress` Values](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#set-dom-element-baselines)
+- [Interpolating `progress` Values](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#interpolating-progress-values)
 
 ### [Architecture and APIs](https://github.com/cy-park/Scrawler/blob/master/docs/API.md)
 

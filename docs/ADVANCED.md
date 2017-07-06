@@ -4,17 +4,13 @@ Scrawler’s biggest strength is that it is simple. What is demonstrated in [Bas
 
 ## Cotents
 
-- [Adding Multiple DOM Elements](#adding-multiple-dom-elements)
 - [Moving Viewport Baseline at Center](#moving-viewport-baseline-at-center)
 - [Setting DOM Element Baselines](#setting-dom-element-baselines)
 - [Interpolating `progress` Values](#interpolating-progress-values)
 
-## Adding Multiple DOM Elements
-
-In many cases, it is expected to deal with multiple DOM elements with same behavior.
-
-
 ## Moving Viewport Baseline at Center
+
+
 
 ## Setting DOM Element Baselines
 

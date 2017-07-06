@@ -575,20 +575,9 @@ Position value in pixel.
 
 <br>
 
-## Live Links
+## Links
 
-- [Hiking the Grand Canyon: 800 Miles of Magic and Misery](http://www.nationalgeographic.com/adventure/2016/11/grand-canyon-national-parks-interactive-map/)
-- [12 Perfect Moments in Ireland](http://www.nationalgeographic.com/travel/destinations/europe/ireland/12-perfect-moments-places-destinations/)
-- [Around the World in 12 Books](http://www.nationalgeographic.com/travel/features/12-books-read-around-world/)
-- [Around the World in 24 Hours](http://www.nationalgeographic.com/travel/features/around-the-world-in-24-hours/)
-- [Artemis Ward](http://artemisward.com/)
+### [Back to Top](#)
 
-<br>
+### [Back to README.md](https://github.com/cy-park/Scrawler/blob/master/docs/README.md)
 
-## Browser Support
-
-Scrawler supports all major modern browsers including IE 10+.
-
-## License
-
-MIT

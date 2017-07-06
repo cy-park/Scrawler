@@ -96,7 +96,7 @@ scrawler
   .run();
 ```
 
-The first parameter `{el: '.unit-to-monitor'}` is to inform which element to monitor. You can use standard `querySelector`. The second parameter `function(){}` is a callback function for `scrawler`’s scroll detection. It is a designated space to write in whatever you want to do with the `<div>`’s `progress` value. Finally, you need to chain `run()` method to activate `scrawler` to work.
+The first parameter `{el: '.unit-to-monitor'}` is to inform which element to monitor. You can use standard `querySelector`. If the `el` parameter picks multiple DOM elements, the callback function will be applied to each DOM elements respectively. The second parameter `function(){}` is a callback function for `scrawler`’s scroll detection. It is a designated space to write in whatever you want to do with the `<div>`’s `progress` value. Finally, you need to chain `run()` method to activate `scrawler` to work.
 
 In this example, I will simply change the `<div>` color to red when the `progress` value is bigger than `0px`. So the code now will look as below:
 
@@ -155,7 +155,6 @@ This is the end of the basic instruction! You can find the live demo of the abov
 
 ### [Advanced Usages](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md)
 
-- [Adding Multiple DOM Elements](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#adding-multiple-dom-elements)
 - [Moving Viewport Baseline at Center](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#moving-viewport-baseline-at-center)
 - [Setting DOM Element Baselines](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#setting-dom-element-baselines)
 - [Interpolating `progress` Values](https://github.com/cy-park/Scrawler/blob/master/docs/ADVANCED.md#interpolating-progress-values)

@@ -1,11 +1,11 @@
 (function(global, factory){
 	'use strict';
-	if(typeof define === 'function' && define.amd) {
-		// AMD
-		define(/@class_name/);
-	} else if(typeof module === 'object' && module.exports) {
+	if(typeof module === 'object' && module.exports) {
 		// CommonJS
 		module.exports = factory();
+	} else if(typeof define === 'function' && define.amd) {
+		// AMD
+		define(/@class_name/);
 	} else {
 		// Browser global
 		global./@class_name/ = factory();

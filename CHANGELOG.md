@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-## 1.2.2 (pre-release)
+## 1.2.3 (pre-release)
+
+## 1.2.2 (2017-09-07)
+
+#### fixes:
+- fixed importing error in ES6 environment with Webpack; prioritized CommonJS module.
 
 ## 1.2.1 (2017-05-01)
 
